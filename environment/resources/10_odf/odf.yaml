@@ -1,0 +1,15 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: data-odf
+spec:
+  description: data-odf
+  source:
+    repoURL: https://github.com/zaskan/argocd-odf.git
+    targetRevision: deploy
+    path: environment/resources/10-odf
+  destination:
+    - namespace: openshift-storage
+      server: https://kubernetes.default.svc
+  syncPolicy: {}
