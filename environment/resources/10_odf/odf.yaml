@@ -8,7 +8,7 @@ spec:
   source:
     repoURL: https://github.com/zaskan/argocd-odf.git
     targetRevision: deploy
-    path: environment/resources/10-odf
+    path: environment/resources/10-odf/charts
   destination:
     - namespace: openshift-storage
       server: https://kubernetes.default.svc
