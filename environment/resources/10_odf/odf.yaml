@@ -6,7 +6,7 @@ metadata:
 spec:
   description: data-odf
   source:
-    repoURL: https://github.com/zaskan/argocd-odf.git
+    repoURL: https://github.com/zaskan/ocp-event-driven.git
     targetRevision: deploy
     path: environment/resources/10-odf/charts
   destination:
