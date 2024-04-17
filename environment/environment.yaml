@@ -33,11 +33,11 @@ spec:
   project: default
   source:
     targetRevision: 1.0.0
-    repoURL: https://raw.githubusercontent.com/zaskan/ocp-event-driven/deploy/environment/charts
+    repoURL: https://raw.githubusercontent.com/zaskan/ocp-event-driven/deploy
     chart: 10_odf
     helm:
       valueFiles: 
-        - values.yaml
+        - environment/charts/values.yaml
   destination:
     server: https://kubernetes.default.svc
     namespace: openshift-storage
