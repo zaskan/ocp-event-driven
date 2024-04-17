@@ -41,5 +41,7 @@ spec:
   destination:
     server: https://kubernetes.default.svc
     namespace: openshift-storage
-  syncPolicy: {}
+  syncPolicy:
+    syncOptions:
+    - CreateNamespace=true
 
