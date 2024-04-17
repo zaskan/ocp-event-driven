@@ -4,8 +4,6 @@ kind: Application
 metadata:
   name: demo-environment
   namespace: openshift-gitops
-  finalizers:
-    - resources-finalizer.argocd.argoproj.io
   annotations:
     argocd.argoproj.io/sync-wave: "0"
 spec:
