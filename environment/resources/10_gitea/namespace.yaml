@@ -1,0 +1,6 @@
+apiVersion: project.openshift.io/v1
+kind: Project
+metadata:
+  name: gitea
+  annotations:
+    argocd.argoproj.io/sync-wave: "10"
