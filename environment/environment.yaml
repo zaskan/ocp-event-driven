@@ -32,6 +32,7 @@ metadata:
 spec:
   project: default
   source:
+    targetRevision: 1.0.0
     repoURL: https://raw.githubusercontent.com/zaskan/ocp-event-driven/deploy/environment/charts
     chart: 10_odf
     helm:
