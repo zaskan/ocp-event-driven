@@ -33,7 +33,7 @@ spec:
   project: default
   source:
     repoURL: https://github.com/zaskan/ocp-event-driven/environment/charts
-    targetRevision: deploy
+#    targetRevision: deploy
     chart: 10-odf
     helm:
       releaseName: odf
