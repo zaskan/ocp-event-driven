@@ -1,7 +1,8 @@
+---
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: environment
+  name: demo-environment
   namespace: openshift-gitops
   finalizers:
     - resources-finalizer.argocd.argoproj.io
@@ -18,3 +19,25 @@ spec:
     server: https://kubernetes.default.svc
     namespace: openshift-gitops
   syncPolicy: {}
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: environment
+  namespace: openshift-storage
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/zaskan/ocp-event-driven
+    # TODO: change branch
+    targetRevision: deploy
+    path: charts/10-odf
+    directory:
+      recurse: true
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: openshift-storage
+  syncPolicy: {}
+
