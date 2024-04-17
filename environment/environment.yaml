@@ -40,6 +40,6 @@ spec:
     server: https://kubernetes.default.svc
     namespace: openshift-storage
   annotations:
-    argocd.argoproj.io/sync-wave: "1"
+    argocd.argoproj.io/sync-wave: "10"
   syncPolicy: {}
 
