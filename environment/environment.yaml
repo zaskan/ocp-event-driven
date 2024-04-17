@@ -36,8 +36,8 @@ spec:
     targetRevision: deploy
     chart: 10_odf
     helm:
-      valueFiles: values.yaml
-      releaseName: odf
+      valueFiles: 
+        - values.yaml
   destination:
     server: https://kubernetes.default.svc
     namespace: openshift-storage
