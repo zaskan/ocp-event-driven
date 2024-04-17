@@ -32,10 +32,11 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: https://github.com/zaskan/ocp-event-driven/environment/charts
-#    targetRevision: deploy
-    chart: 10-odf
+    repoURL: https://raw.githubusercontent.com/zaskan/ocp-event-driven/deploy/environment/charts
+    targetRevision: deploy
+    chart: 10_odf
     helm:
+      valueFiles: values.yaml
       releaseName: odf
   destination:
     server: https://kubernetes.default.svc
