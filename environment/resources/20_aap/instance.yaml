@@ -1,0 +1,24 @@
+---
+apiVersion: automationcontroller.ansible.com/v1beta1
+kind: AutomationController
+metadata:
+  name: controller
+  namespace: odf-eda-demo
+spec:
+  create_preload_data: true
+  route_tls_termination_mechanism: Edge
+  garbage_collect_secrets: true
+  service_type: ClusterIP
+  ingress_type: Route
+  loadbalancer_port: 80
+  projects_use_existing_claim: _No_
+  image_pull_policy: IfNotPresent
+  projects_storage_size: 20Gi
+  task_privileged: false
+  projects_storage_access_mode: ReadWriteOnce #if storage class is gp2 or gp3
+#  projects_storage_access_mode: ReadWriteMany #else if
+  projects_persistence: true
+  replicas: 1
+  admin_user: admin
+  loadbalancer_protocol: http
+  admin_password_secret: controller-admin-password
