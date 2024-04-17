@@ -30,12 +30,12 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: https://github.com/zaskan/ocp-event-driven
+    repoURL: https://github.com/zaskan/ocp-event-driven/environment/charts
     # TODO: change branch
     targetRevision: deploy
-    path: environment/charts/10-odf/charts
-    directory:
-      recurse: true
+    chart: 10-odf
+    helm:
+      releaseName: odf
   destination:
     server: https://kubernetes.default.svc
     namespace: openshift-storage
