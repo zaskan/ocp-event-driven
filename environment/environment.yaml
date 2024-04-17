@@ -24,7 +24,7 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: odf
-  namespace: openshift-storage
+  namespace: openshift-gitops
   annotations:
     argocd.argoproj.io/sync-wave: "10"
   finalizers:
@@ -33,7 +33,6 @@ spec:
   project: default
   source:
     repoURL: https://github.com/zaskan/ocp-event-driven/environment/charts
-    # TODO: change branch
     targetRevision: deploy
     chart: 10-odf
     helm:
