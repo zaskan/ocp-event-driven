@@ -32,7 +32,7 @@ metadata:
 spec:
   project: default
   source:
-    targetRevision: 1.0.0
+    targetRevision: deploy
     repoURL: https://github.com/zaskan/ocp-event-driven
     path: environment/charts/10_odf
   destination:
