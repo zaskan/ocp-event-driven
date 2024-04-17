@@ -6,6 +6,8 @@ metadata:
   namespace: openshift-gitops
   finalizers:
     - resources-finalizer.argocd.argoproj.io
+  annotations:
+    argocd.argoproj.io/sync-wave: "0"
 spec:
   project: default
   source:
@@ -39,5 +41,7 @@ spec:
   destination:
     server: https://kubernetes.default.svc
     namespace: openshift-storage
+  annotations:
+    argocd.argoproj.io/sync-wave: "10"
   syncPolicy: {}
 
