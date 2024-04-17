@@ -25,6 +25,8 @@ kind: Application
 metadata:
   name: odf
   namespace: openshift-storage
+  annotations:
+    argocd.argoproj.io/sync-wave: "10"
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
@@ -39,7 +41,5 @@ spec:
   destination:
     server: https://kubernetes.default.svc
     namespace: openshift-storage
-  annotations:
-    argocd.argoproj.io/sync-wave: "10"
   syncPolicy: {}
 
