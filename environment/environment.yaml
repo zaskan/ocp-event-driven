@@ -33,7 +33,7 @@ spec:
     repoURL: https://github.com/zaskan/ocp-event-driven
     # TODO: change branch
     targetRevision: deploy
-    path: environment/charts/10-odf
+    path: environment/charts/10-odf/charts
     directory:
       recurse: true
   destination:
