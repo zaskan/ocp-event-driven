@@ -41,4 +41,25 @@ spec:
   syncPolicy:
     syncOptions:
     - CreateNamespace=true
-
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: oadp-operator
+  namespace: openshift-gitops
+  annotations:
+    argocd.argoproj.io/sync-wave: "10"
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  source:
+    targetRevision: oadp
+    repoURL: https://github.com/zaskan/ocp-event-driven
+    path: .
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: openshift-oadp
+  syncPolicy:
+    syncOptions:
+    - CreateNamespace=true
