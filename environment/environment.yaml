@@ -63,3 +63,47 @@ spec:
   syncPolicy:
     syncOptions:
     - CreateNamespace=true
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: app01
+  namespace: openshift-gitops
+  annotations:
+    argocd.argoproj.io/sync-wave: "10"
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  source:
+    targetRevision: app01
+    repoURL: https://github.com/zaskan/ocp-event-driven
+    path: .
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: app01
+  syncPolicy:
+    syncOptions:
+    - CreateNamespace=true
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: app02
+  namespace: openshift-gitops
+  annotations:
+    argocd.argoproj.io/sync-wave: "10"
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  source:
+    targetRevision: app02
+    repoURL: https://github.com/zaskan/ocp-event-driven
+    path: .
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: app02
+  syncPolicy:
+    syncOptions:
+    - CreateNamespace=true
