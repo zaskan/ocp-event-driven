@@ -1,8 +1,8 @@
 kind: Service
 apiVersion: v1
 metadata:
-  name: app01-svc
-  namespace: app01
+  name: app02-svc
+  namespace: app02
   labels:
     app: httpd
 spec:
@@ -22,5 +22,5 @@ spec:
   ipFamilyPolicy: SingleStack
   sessionAffinity: None
   selector:
-    app: app01
-    deployment: httpd-app01
+    app: app02
+    deployment: httpd-app02

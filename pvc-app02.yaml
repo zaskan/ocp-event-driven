@@ -2,7 +2,7 @@ kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
   name: httpd-pvc
-  namespace: app01
+  namespace: app02
 spec:
   accessModes:
     - ReadWriteMany

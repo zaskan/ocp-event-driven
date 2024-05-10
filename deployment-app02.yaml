@@ -2,21 +2,21 @@ kind: Deployment
 apiVersion: apps/v1
 metadata:
   annotations:
-  name: httpd-app01
-  namespace: app01
+  name: httpd-app02
+  namespace: app02
   labels:
     app: app01
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: app01
+      app: app02
   template:
     metadata:
       creationTimestamp: null
       labels:
-        app: app01
-        deployment: httpd-app01
+        app: app02
+        deployment: httpd-app02
     spec:
       volumes:
         - name: httpd-pvc
@@ -24,7 +24,7 @@ spec:
             claimName: httpd-pvc
       containers:
         - name: httpd
-          image: 'quay.io/ocp-event-driven/app01:1.0.0'
+          image: 'quay.io/ocp-event-driven/app02:1.0.0'
           ports:
             - containerPort: 8080
               protocol: TCP

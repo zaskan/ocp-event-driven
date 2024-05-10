@@ -2,13 +2,13 @@ kind: Route
 apiVersion: route.openshift.io/v1
 metadata:
   name: demo
-  namespace: app01
+  namespace: app02
   labels:
     app: httpd
 spec:
   to:
     kind: Service
-    name: app01-svc
+    name: app02-svc
     weight: 100
   port:
     targetPort: 8080-tcp
