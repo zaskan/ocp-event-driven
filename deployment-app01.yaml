@@ -1,0 +1,51 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  annotations:
+  name: httpd-app01
+  namespace: app01
+  labels:
+    app: app01
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: app01
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: app01
+        deployment: httpd-app01
+    spec:
+      volumes:
+        - name: httpd-pvc
+          persistentVolumeClaim:
+            claimName: httpd-pvc
+      containers:
+        - name: httpd
+          image: 'quay.io/ocp-event-driven/app01:1.0.0'
+          ports:
+            - containerPort: 8080
+              protocol: TCP
+            - containerPort: 8443
+              protocol: TCP
+          resources: {}
+          volumeMounts:
+            - name: httpd-pvc
+              mountPath: /tmp
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          imagePullPolicy: Always
+      restartPolicy: Always
+      terminationGracePeriodSeconds: 30
+      dnsPolicy: ClusterFirst
+      securityContext: {}
+      schedulerName: default-scheduler
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 25%
+      maxSurge: 25%
+  revisionHistoryLimit: 10
+  progressDeadlineSeconds: 600
