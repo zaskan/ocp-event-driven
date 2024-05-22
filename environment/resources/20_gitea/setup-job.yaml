@@ -1,0 +1,64 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  generateName: gitea-setup-
+  name: configure-gitea
+  namespace: gitea
+  annotations:
+    argocd.argoproj.io/sync-wave: "29"
+  labels:
+      app.kubernetes.io/part-of: gitea
+      name: configure-gitea
+spec:
+  backoffLimit: 1
+  template:
+    spec:
+      containers:
+      - name: git
+        image: quay.io/calopezb/git-utils:1.0.0
+        # TODO: Read CONFIGURATION using a configmap + ansible
+        env:
+        - name: GITEA_HOSTNAME
+          value: "gitea.gitea.svc.cluster.local:3000"
+        command:
+        - /bin/sh
+        - '-c'
+        args:
+        - |-
+          pwd
+          mkdir repository
+          cd repository
+
+          echo "-- Cloning demo repository --"
+          git clone -b deploy https://github.com/zaskan/ocp-event-driven.git
+          echo "------------------------------"   
+
+          echo "-- Creating gitea user"
+          curl -X POST \
+            -d '{"username":"gitea","password":"openshift","retype":"openshift","email":"gitea@gitea.com","send_notify":false}' \
+            -H "Content-Type: application/json" \
+            http://$GITEA_HOSTNAME/user/sign_up
+                  
+          echo "-- Creating odf_configuration_crds repository --"
+          RESPONSE=$(curl -o /dev/null -s -w "%{http_code}\n" -X POST \
+            -u gitea:openshift \
+            -d '{"auto_init": true,"default_branch": "master","gitignores": "VisualStudioCode","name": "odf_configuration_crds","private": false,"trust_model": "default"}' \
+            -H "Content-Type: application/json" \
+            http://$GITEA_HOSTNAME/api/v1/user/repos)
+
+          if [ "$RESPONSE" != "201" ]; then
+              echo "Error creating repository, error code: $RESPONSE"
+              exit 1
+          fi
+
+          git clone http://gitea:openshift@$GITEA_HOSTNAME/gitea/odf_configuration_crds
+          cp -r ocp-event-driven/odf_configuration_crds/. odf_configuration_crds
+          cd odf_configuration_crds
+          git config user.email "gitea@gitea.com"
+          git config user.name "gitea"
+          git add . && git commit -m "Repository cloned from demo source" && git push
+          cd ..
+          echo "------------------------------"   
+         
+        imagePullPolicy: Always
+      restartPolicy: Never

@@ -5,7 +5,7 @@ metadata:
   name: gitea-repositories
   namespace: gitea
   annotations:
-    argocd.argoproj.io/sync-wave: "15"
+    argocd.argoproj.io/sync-wave: "25"
 spec:
   accessModes:
   - ReadWriteOnce
@@ -19,7 +19,7 @@ metadata:
   name: gitea-postgres-data
   namespace: gitea
   annotations:
-    argocd.argoproj.io/sync-wave: "12"
+    argocd.argoproj.io/sync-wave: "22"
 spec:
   accessModes:
   - ReadWriteOnce

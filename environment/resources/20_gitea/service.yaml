@@ -4,7 +4,7 @@ metadata:
   annotations:
     description: The Gitea server's http port
     service.alpha.openshift.io/dependencies: '[{"name":"gitea-postgresql","namespace":"","kind":"Service"}]'
-    argocd.argoproj.io/sync-wave: "11"
+    argocd.argoproj.io/sync-wave: "21"
   labels:
     app: gitea
   name: gitea

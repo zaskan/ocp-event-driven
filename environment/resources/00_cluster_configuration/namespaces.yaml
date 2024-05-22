@@ -1,8 +1,0 @@
----
-apiVersion: project.openshift.io/v1
-kind: Project
-metadata:
-# TODO: review if needed
-  name: odf-eda-demo
-  annotations:
-    argocd.argoproj.io/sync-wave: "0"

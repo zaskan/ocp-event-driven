@@ -3,7 +3,7 @@ kind: Service
 metadata:
   annotations:
     description: Exposes the database server
-    argocd.argoproj.io/sync-wave: "11"
+    argocd.argoproj.io/sync-wave: "21"
   name: gitea-postgresql
   namespace: gitea
 spec:
