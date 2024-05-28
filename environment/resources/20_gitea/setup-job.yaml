@@ -39,10 +39,10 @@ spec:
             -H "Content-Type: application/json" \
             http://$GITEA_HOSTNAME/user/sign_up
                   
-          echo "-- Creating app02 repository --"
+          echo "-- Creating app01 repository --"
           RESPONSE=$(curl -o /dev/null -s -w "%{http_code}\n" -X POST \
             -u gitea:openshift \
-            -d '{"auto_init": true,"default_branch": "master","gitignores": "VisualStudioCode","name": "app02","private": false,"trust_model": "default"}' \
+            -d '{"auto_init": true,"default_branch": "master","gitignores": "VisualStudioCode","name": "app01","private": false,"trust_model": "default"}' \
             -H "Content-Type: application/json" \
             http://$GITEA_HOSTNAME/api/v1/user/repos)
 
@@ -51,9 +51,9 @@ spec:
               exit 1
           fi
 
-          git clone http://gitea:openshift@$GITEA_HOSTNAME/gitea/app02
-          cp -r ocp-event-driven/app02/. app02
-          cd app02
+          git clone http://gitea:openshift@$GITEA_HOSTNAME/gitea/app01
+          cp -r ocp-event-driven/app01/. app01
+          cd app01
           git config user.email "gitea@gitea.com"
           git config user.name "gitea"
           git add . && git commit -m "Repository cloned from demo source" && git push
