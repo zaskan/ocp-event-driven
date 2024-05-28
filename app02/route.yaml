@@ -1,7 +1,7 @@
 kind: Route
 apiVersion: route.openshift.io/v1
 metadata:
-  name: demo
+  name: app02
   labels:
     app: app02
 spec:
