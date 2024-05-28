@@ -63,7 +63,7 @@ spec:
           echo "-- Creating app02 repository --"
           RESPONSE=$(curl -o /dev/null -s -w "%{http_code}\n" -X POST \
             -u gitea:openshift \
-            -d '{"auto_init": true,"default_branch": "master","gitignores": "VisualStudioCode","name": "app2","private": false,"trust_model": "default"}' \
+            -d '{"auto_init": true,"default_branch": "master","gitignores": "VisualStudioCode","name": "app02","private": false,"trust_model": "default"}' \
             -H "Content-Type: application/json" \
             http://$GITEA_HOSTNAME/api/v1/user/repos)
 
