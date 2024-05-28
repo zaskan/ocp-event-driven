@@ -1,0 +1,21 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: app01-pvc
+  namespace: app01
+  annotations:
+    argocd.argoproj.io/sync-wave: "45"
+spec:
+  groups:
+    - name: pvc-usage-80
+      rules:
+      - alert: PVCUsageHigh
+        expr: (kubelet_volume_stats_used_bytes{persistentvolumeclaim="app01"} / kubelet_volume_stats_capacity_bytes{persistentvolumeclaim="app01"}) * 100 > 80
+        for: 1m
+        labels:
+          severity: warning
+        annotations:
+          summary: "PVC {{ $labels.persistentvolumeclaim }} usage is above 80%" #TODO Beautify these lines
+          description: |
+            PVC {{ $labels.persistentvolumeclaim }} usage is at {{ printf "%.2f" $value }}%. 
+            
