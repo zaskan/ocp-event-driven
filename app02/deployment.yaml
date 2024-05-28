@@ -4,6 +4,7 @@ metadata:
   name: app02
   labels:
     app: app02
+    app.openshift.io/runtime: apache
 spec:
   replicas: 1
   selector:
