@@ -39,10 +39,10 @@ spec:
             -H "Content-Type: application/json" \
             http://$GITEA_HOSTNAME/user/sign_up
                   
-          echo "-- Creating odf_configuration_crds repository --"
+          echo "-- Creating app02 repository --"
           RESPONSE=$(curl -o /dev/null -s -w "%{http_code}\n" -X POST \
             -u gitea:openshift \
-            -d '{"auto_init": true,"default_branch": "master","gitignores": "VisualStudioCode","name": "odf_configuration_crds","private": false,"trust_model": "default"}' \
+            -d '{"auto_init": true,"default_branch": "master","gitignores": "VisualStudioCode","name": "app02","private": false,"trust_model": "default"}' \
             -H "Content-Type: application/json" \
             http://$GITEA_HOSTNAME/api/v1/user/repos)
 
@@ -51,9 +51,30 @@ spec:
               exit 1
           fi
 
-          git clone http://gitea:openshift@$GITEA_HOSTNAME/gitea/odf_configuration_crds
-          cp -r ocp-event-driven/odf_configuration_crds/. odf_configuration_crds
-          cd odf_configuration_crds
+          git clone http://gitea:openshift@$GITEA_HOSTNAME/gitea/app02
+          cp -r ocp-event-driven/app02/. app02
+          cd app02
+          git config user.email "gitea@gitea.com"
+          git config user.name "gitea"
+          git add . && git commit -m "Repository cloned from demo source" && git push
+          cd ..
+          echo "------------------------------"   
+
+          echo "-- Creating app02 repository --"
+          RESPONSE=$(curl -o /dev/null -s -w "%{http_code}\n" -X POST \
+            -u gitea:openshift \
+            -d '{"auto_init": true,"default_branch": "master","gitignores": "VisualStudioCode","name": "app2","private": false,"trust_model": "default"}' \
+            -H "Content-Type: application/json" \
+            http://$GITEA_HOSTNAME/api/v1/user/repos)
+
+          if [ "$RESPONSE" != "201" ]; then
+              echo "Error creating repository, error code: $RESPONSE"
+              exit 1
+          fi
+
+          git clone http://gitea:openshift@$GITEA_HOSTNAME/gitea/app02
+          cp -r ocp-event-driven/app02/. app02
+          cd app02
           git config user.email "gitea@gitea.com"
           git config user.name "gitea"
           git add . && git commit -m "Repository cloned from demo source" && git push

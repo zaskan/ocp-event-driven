@@ -8,6 +8,20 @@
       metadata:
         name: "{{ operator.namespace }}"
 
+- name: ({{ operator.name }}) - group
+  kubernetes.core.k8s:
+    state: present
+    definition:
+      apiVersion: operators.coreos.com/v1
+      kind: OperatorGroup
+      metadata:
+        name: "{{ operator.namespace }}"
+        namespace: "{{ operator.namespace }}"
+      spec:
+        targetNamespaces:
+        - "{{ operator.namespace }}"
+  when: operator.clusterwide is false
+
 - name: ({{ operator.name }}) - install subscription
   kubernetes.core.k8s:
     state: present
@@ -17,13 +31,15 @@
       metadata:
         name: "{{ operator.name }}"
         namespace: "{{ operator.namespace }}"
+        labels:
+          operators.coreos.com/openshift-gitops-operator.openshift-operators: ""
       spec:
         channel: "{{ operator.channel }}"
         name: "{{ operator.name }}"
         source: "{{ operator.source }}"
         sourceNamespace: "{{ operator.sourcenamespace }}"
         installPlanApproval: Automatic
-        clusterwide: true
+        clusterwide: "{{ operator.clusterwide }}"
 
 - name: ({{ operator.name }}) - get ClusterServiceVersion from Subscription 
   kubernetes.core.k8s_info:

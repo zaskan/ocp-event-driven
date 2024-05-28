@@ -1,0 +1,18 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: app01
+spec:
+  destination:
+    namespace: app01
+    server: 'https://kubernetes.default.svc'
+  source:
+    path: .
+    repoURL: 'http://gitea.gitea.svc.cluster.local:3000/gitea/app01'
+    targetRevision: master
+  sources: []
+  project: default
+  syncPolicy:
+    automated:
+      prune: false
+      selfHeal: true
