@@ -45,10 +45,10 @@
             destination:
               server: https://kubernetes.default.svc
               namespace: openshift-gitops
-            syncPolicy: {}
-#              automated:
-#                prune: true
-#                selfHeal: true
+            syncPolicy:
+              automated:
+                prune: true
+                selfHeal: true
 
     - name: Display message after role execution
       ansible.builtin.debug:
