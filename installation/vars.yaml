@@ -4,6 +4,7 @@ demoNamespaces:
   - name: gitea
   - name: app01
   - name: app02
+  - name: aap
 
 imagesSource:
   # Configure if you need namespaces to pull images from an specific one
