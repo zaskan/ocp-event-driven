@@ -13,4 +13,4 @@ spec:
   receivers:
   - name: 'webhook'
     webhook_configs:
-    - url: 'activation-job-1-7-5000.aap.svc.cluster.local:5000/endpoint'
+    - url: 'activation-job-1-7-5000.aap.svc.cluster.local:5000'
