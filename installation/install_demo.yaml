@@ -15,9 +15,9 @@
       loop_control:
         loop_var: namespace
 
-#    - name: Install Operators
-#      include_role:
-#        name: install_operators
+    - name: Install Operators
+      include_role:
+        name: install_operators
 
     - name: ArgoCD
       include_role:
