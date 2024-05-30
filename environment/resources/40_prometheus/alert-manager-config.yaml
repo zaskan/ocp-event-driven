@@ -1,0 +1,16 @@
+apiVersion: monitoring.coreos.com/v1beta1
+kind: AlertmanagerConfig
+metadata:
+  name: eda-routing
+  namespace: app01
+spec:
+  route:
+    group_by: ['alertname']
+    group_wait: 30s
+    group_interval: 2m
+    repeat_interval: 12h
+    receiver: 'webhook'
+  receivers:
+  - name: 'webhook'
+    webhook_configs:
+    - url: 'http://ansible-eda.{{ demo_namespace }}.svc.cluster.local:5000/endpoint'

@@ -1,0 +1,36 @@
+---
+demoNamespaces:
+  # Exclude operators installation namespaces
+  - name: gitea
+  - name: app01
+  - name: app02
+  - name: aap
+
+imagesSource:
+  # Configure if you need namespaces to pull images from an specific one
+  enabled: true
+  namespace: ci-cd-workspace
+
+operators:
+  - name: openshift-gitops-operator
+    namespace: openshift-operators
+    channel: gitops-1.12
+    source: redhat-operators
+    sourcenamespace: openshift-marketplace
+    clusterwide: true
+
+  - name: ansible-automation-platform-operator
+    namespace: aap
+    channel: stable-2.4-cluster-scoped
+    source: redhat-operators
+    sourcenamespace: openshift-marketplace
+    clusterwide: false
+
+  - name: redhat-oadp-operator
+    namespace: openshift-adp
+    channel: stable-1.3
+    source: redhat-operators
+    sourcenamespace: openshift-marketplace
+    clusterwide: true
+
+
