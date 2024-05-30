@@ -38,7 +38,7 @@
             project: default
             source:
               repoURL: https://github.com/zaskan/ocp-event-driven.git
-              targetRevision: deploy
+              targetRevision: main
               path: environment/resources/
               directory:
                 recurse: true

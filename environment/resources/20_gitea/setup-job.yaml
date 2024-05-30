@@ -30,7 +30,7 @@ spec:
           cd repository
 
           echo "-- Cloning demo repository --"
-          git clone -b deploy https://github.com/zaskan/ocp-event-driven.git
+          git clone -b main https://github.com/zaskan/ocp-event-driven.git
           echo "------------------------------"   
 
           echo "-- Creating gitea user"
