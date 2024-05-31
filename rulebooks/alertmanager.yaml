@@ -8,7 +8,7 @@
         data_host_path: ""
   rules:
     - name: Get PVCUsageHigh alerts
-      condition: event.short_description is defined
+      condition: event.alert.status == "firing"
       action:
         debug:
           msg: Simple debug message
