@@ -8,7 +8,7 @@
         data_host_path: ""
   rules:
     - name: Get PVCUsageHigh alerts
-      condition: event.alert.status is defined
+      condition: event.alert is defined
       action:
         debug:
           msg: Simple debug message
