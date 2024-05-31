@@ -11,4 +11,4 @@
       condition: event.alert is defined
       action:
         debug:
-          msg: Simple debug message
+
