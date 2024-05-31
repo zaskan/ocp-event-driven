@@ -1,0 +1,35 @@
+apiVersion: eda.ansible.com/v1alpha1
+kind: EDA
+metadata:
+  name: eda01
+  namespace: aap
+  annotations:
+    argocd.argoproj.io/sync-wave: "41"
+spec:
+  route_tls_termination_mechanism: Edge
+  ingress_type: Route
+  loadbalancer_port: 80
+  no_log: true
+  activation_worker:
+    replicas: 5
+  image_pull_policy: IfNotPresent
+  ipv6_disabled: false
+  ui:
+    replicas: 1
+  set_self_labels: true
+  api:
+    gunicorn_workers: 2
+    replicas: 1
+  force_drop_db: false
+  scheduler:
+    replicas: 1
+  redis:
+    replicas: 1
+  admin_user: admin
+  loadbalancer_protocol: http
+  default_worker:
+    replicas: 2
+  worker:
+    replicas: 2
+  automation_server_url: eda01
+  hostname: eda01
