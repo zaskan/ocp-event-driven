@@ -1,5 +1,5 @@
 ---
-- name: Watch for new snow records and alerts
+- name: Watch for PVCUsageHigh
   hosts: localhost
   sources:
     - ansible.eda.alertmanager:
@@ -7,8 +7,8 @@
         port: 5000
         data_host_path: ""
   rules:
-    - name: Trigger Request - New ServiceNow User
-      condition: event.short_description contains "usage"
+    - name: Get PVCUsageHigh alerts
+      condition: event.short_description is defined
       action:
         debug:
           msg: Simple debug message
