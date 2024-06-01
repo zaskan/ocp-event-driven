@@ -31,6 +31,6 @@ spec:
   admin_user: admin
   loadbalancer_protocol: http
   metrics_utility_cronjob_gather_schedule: '@hourly'
-  hostname: controller01-aap.apps.cluster-9bpqb.dynamic.redhatworkshops.io
+  hostname: controller01
   web_replicas: 2
   task_replicas: 2
