@@ -4,7 +4,7 @@ metadata:
   name: controller01
   namespace: aap
   annotations:
-    argocd.argoproj.io/sync-wave: "50"
+    argocd.argoproj.io/sync-wave: "40"
 spec:
   postgres_keepalives_count: 5
   postgres_keepalives_idle: 5
@@ -31,6 +31,6 @@ spec:
   admin_user: admin
   loadbalancer_protocol: http
   metrics_utility_cronjob_gather_schedule: '@hourly'
-  hostname: controller01
+  hostname: controller01-service.aap.svc.cluster.local
   web_replicas: 2
   task_replicas: 2
