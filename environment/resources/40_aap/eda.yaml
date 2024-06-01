@@ -31,6 +31,6 @@ spec:
     replicas: 2
   worker:
     replicas: 2
-  automation_server_url: controller01-aap.apps.cluster-9bpqb.dynamic.redhatworkshops.io
+  automation_server_url: http://controller01-service.aap.svc.cluster.local
   automation_server_ssl_verify: 'no'
   hostname: eda01
