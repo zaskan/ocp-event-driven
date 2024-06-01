@@ -10,5 +10,4 @@
     - name: Get PVCUsageHigh alerts
       condition: event.alert.description contains "Instance"
       action:
-        run_job_template:
-          name: Demo Job Template
+        debug:
