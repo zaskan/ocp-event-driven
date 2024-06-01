@@ -32,4 +32,4 @@ spec:
   worker:
     replicas: 2
   automation_server_url: controller01-service.aap.svc.cluster.local
-  hostname: eda01
+  hostname: eda01-ui.aap.svc.cluster.local
