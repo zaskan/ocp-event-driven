@@ -31,5 +31,5 @@ spec:
     replicas: 2
   worker:
     replicas: 2
-  automation_server_url: eda01
+  automation_server_url: controller01
   hostname: eda01
