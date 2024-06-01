@@ -8,7 +8,7 @@
         data_host_path: ""
   rules:
     - name: Get PVCUsageHigh alerts
-      condition: event.alert is defined
+      condition: event.alert.labels.alertname == "PVCUsageHigh"
       action:
         debug:
           msg: "{{ event.alert.labels.alertname }}"
