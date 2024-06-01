@@ -10,5 +10,6 @@
     - name: Get PVCUsageHigh alerts
       condition: event.alert.labels.alertname == "PVCUsageHigh"
       action:
-        debug:
-          msg: "{{ event.alert.labels.alertname }}"
+        run_job_template:
+          name: "Demo Job Template"
+          organization: "Default"
