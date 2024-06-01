@@ -1,0 +1,4 @@
+projects:
+  - name: ocp-event-driven
+    description: Ocp Event Driven Demo
+    url: https://github.com/zaskan/ocp-event-driven.git

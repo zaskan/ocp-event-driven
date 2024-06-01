@@ -12,6 +12,33 @@
   when:
     - lookup('file', 'vars/organizations.yaml', errors='ignore') is not none
 
+- name: Create Applications
+  ansible.controller.application:
+    name: "{{ item.name }}"
+    description: "{{ item.description }}"
+    organization: "{{ item.organization }}"
+    state: present
+    authorization_grant_type: "{{ item.auth_grant_type }}"
+    client_type: "{{ item.client_type }}"
+  loop: "{{ applications }}"
+  when:
+    - lookup('file', 'vars/applications.yaml', errors='ignore') is not none
+
+- name: Create token
+  ansible.controller.token:
+    description: "{{ item.description }}"
+    scope: "{{ item.scope }}"
+    state: present
+    application: "{{ item.application }}"
+  register: token
+  loop: "{{ tokens }}"
+  when:
+    - lookup('file', 'vars/applications.yaml', errors='ignore') is not none
+
+- name: Register token
+  ansible.builtin.set_fact:
+    application_token: "{{ token.results.0.ansible_facts.controller_token.token }}"
+
 - name: Create AAP teams
   ansible.controller.team:
     name: "{{ item.name }}"

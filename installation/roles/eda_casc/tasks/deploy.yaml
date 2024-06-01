@@ -1,0 +1,61 @@
+---
+- name: Include variables
+  ansible.builtin.include_vars:
+    dir: vars
+
+- name: Create EDA user token
+  infra.eda_configuration.user_token:
+    name: "{{ item.name }}"
+    description: "{{ item.description }}"
+    token: "{{ eda_casc_controller_token }}"
+  loop: "{{ tokens }}"
+  when:
+    - lookup('file', 'vars/tokens.yaml', errors='ignore') is not none
+
+- name: Create Container Registry Credential
+  infra.eda_configuration.credential:
+    name: "{{ item.name }}"
+    description: "{{ item.description }}"
+    username: "{{ item.username }}"
+    secret: "{{ item.secret }}"
+    credential_type: "{{ item.credential_type }}"
+    state: present
+  loop: "{{ credentials }}"
+  when:
+    - lookup('file', 'vars/credentials.yaml', errors='ignore') is not none
+
+- name: Create Decision Environments
+  infra.eda_configuration.decision_environment:
+    name: "{{ item.name }}"
+    description: "{{ item.description }}"
+    image_url: "{{ item.image_url }}"
+    credential: "{{ item.credential }}"
+    state: present
+  loop: "{{ decision_environments }}"
+  when:
+    - lookup('file', 'vars/decision_environments.yaml', errors='ignore') is not none
+
+- name: Create Projects
+  infra.eda_configuration.project:
+    name: "{{ item.name }}"
+    description: "{{ item.description }}"
+    url: "{{ item.url }}"
+    state: present
+  loop: "{{ projects }}"
+  when:
+    - lookup('file', 'vars/projects.yaml', errors='ignore') is not none
+
+- name: Create Rulebook Activation
+  infra.eda_configuration.rulebook_activation:
+    name: "{{ item.name }}"
+    description: "{{ item.description }}"
+    project: "{{ item.project }}"
+    rulebook: "{{ item.rulebook }}"
+    decision_environment: "{{ item.decision_environment }}"
+    extra_vars: "{{ item.extra_vars | default(omit) }}"
+    enabled: true
+    awx_token: "{{ item.awx_token }}"
+    state: present
+  loop: "{{ activations }}"
+  when:
+    - lookup('file', 'vars/activations.yaml', errors='ignore') is not none

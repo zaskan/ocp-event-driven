@@ -1,4 +1,6 @@
-inventory_hosts: 
+python_interpreter: "{% raw %}{{ ansible_playbook_python }}{% endraw %}"
+
+inventory_hosts:
   - name: localhost
     desc: ""
     inv: "Automation Controller Inventory"

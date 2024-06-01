@@ -1,0 +1,9 @@
+activations: 
+  - name: Alertmanager
+    description: Alertmanager listener
+    project: ocp-event-driven
+    rulebook: alertmanager.yaml
+    decision_environment: Default Decision Environment
+    enabled: true
+    awx_token: "Ansible Controller"
+    state: present

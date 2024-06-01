@@ -1,0 +1,36 @@
+- name: Wait for Ansible EDA Route to be Created
+  kubernetes.core.k8s_info:
+    api_version: route.openshift.io/v1
+    kind: Route
+    name: eda01
+    namespace: aap
+  until:
+    - eda.resources[0].spec.host is defined
+    - eda.resources[0].spec.host != ""
+  retries: 60
+  delay: 10
+  register: eda
+
+- name: Get EDA password
+  kubernetes.core.k8s_info:
+    api_version: v1
+    kind: Secret
+    name: eda01-admin-password
+    namespace: aap
+  register: eda_password
+
+- name: Set EDA Hostname Information
+  ansible.builtin.set_fact:
+    eda_host: "{{ eda.resources[0].spec.host }}"
+
+- name: Set EDA Password Information
+  ansible.builtin.set_fact:
+    eda_pass: "{{ eda_password.resources[0].data.password | ansible.builtin.b64decode }}"
+
+- name: Wait for EDA Controller to be ready
+  ansible.builtin.uri:
+    url: "https://{{ controller.resources[0].spec.host }}"
+    validate_certs: false
+    status_code: 200
+  retries: 60
+  delay: 10

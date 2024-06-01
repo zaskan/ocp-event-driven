@@ -34,4 +34,3 @@
     status_code: 200
   retries: 60
   delay: 10
-

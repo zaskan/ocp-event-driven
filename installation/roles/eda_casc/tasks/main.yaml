@@ -1,0 +1,12 @@
+- name: Prepare EDA Objects
+  ansible.builtin.include_tasks: prepare.yaml
+
+- name: Deploy EDA Objects
+  ansible.builtin.include_tasks:
+    file: deploy.yaml
+    apply:
+      environment:
+        EDA_HOST: "{{ hostvars['localhost']['eda_host'] }}"
+        EDA_USERNAME: "admin"
+        EDA_PASSWORD: "{{ hostvars['localhost']['eda_pass'] }}"
+        EDA_VERIFY_SSL: "false"

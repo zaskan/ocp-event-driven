@@ -58,6 +58,12 @@
       ansible.builtin.include_role:
         name: controller_casc
 
+    - name: Ansible EDA
+      ansible.builtin.include_role:
+        name: eda_casc
+      vars:
+        eda_casc_controller_token: "{{ application_token }}"
+
     - name: Display message after role execution
       ansible.builtin.debug:
         msg: "Running tasks after role execution"

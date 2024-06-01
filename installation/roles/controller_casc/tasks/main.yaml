@@ -2,7 +2,7 @@
   ansible.builtin.include_tasks: prepare.yaml
 
 - name: Deploy Controller Objects
-  ansible.builtin.include_tasks: 
+  ansible.builtin.include_tasks:
     file: deploy.yaml
     apply:
       environment:

@@ -1,0 +1,4 @@
+tokens:
+  - description: 'Token for EDA'
+    application: "Event-Driven Ansible"
+    scope: "write"

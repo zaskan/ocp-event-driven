@@ -1,0 +1,5 @@
+decision_environments:
+  - name: Default Decision Environment
+    description: Default Decision Environment
+    image_url: "registry.redhat.io/ansible-automation-platform-24/de-supported-rhel8:1.0.5-24"
+    credential: registry_credential
