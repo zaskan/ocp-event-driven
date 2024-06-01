@@ -32,5 +32,5 @@ spec:
   worker:
     replicas: 2
   automation_server_url: controller01-service.aap.svc.cluster.local
-  automation_server_ssl_verify: no
+  automation_server_ssl_verify: 'no'
   hostname: eda01
