@@ -8,8 +8,7 @@
         data_host_path: ""
   rules:
     - name: Get PVCUsageHigh alerts
-      condition: event.alert contains "PVCUsageHigh"
+      condition: event.alert.labels.alertname is defined
       action:
-        run_job_template:
-          name: "Demo Job Template"
-          organization: Default
+        debug:
+          msg: "{{ event }}"
