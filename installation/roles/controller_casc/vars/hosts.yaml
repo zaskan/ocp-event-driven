@@ -1,0 +1,5 @@
+inventory_hosts: 
+  - name: localhost
+    desc: ""
+    inv: "Automation Controller Inventory"
+    vars: '{ "ansible_connection": "local", "ansible_python_interpreter": "{% raw %}{{ python_interpreter }}{% endraw %}" }'

@@ -1,0 +1,11 @@
+jobtemplates:
+  - name: "[JT] Test"
+    org: "{{ default_organization | default('Default') }}"
+    inv: "Automation Controller Inventory"
+    project: "Ansible EDA Demo Project"
+    playbook: "playbooks/tests.yml"
+    creds:
+      - "Red Hat Ansible Automation Platform Credential"
+    ask_variables_on_launch: false
+    allow_simultaneous: false
+    execution_environment: "Default execution environment"

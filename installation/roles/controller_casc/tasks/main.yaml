@@ -1,0 +1,12 @@
+- name: Prepare Controller Objects
+  ansible.builtin.include_tasks: prepare.yaml
+
+- name: Deploy Controller Objects
+  ansible.builtin.include_tasks: 
+    file: deploy.yaml
+    apply:
+      environment:
+        CONTROLLER_HOST: "{{ hostvars['localhost']['aap_host'] }}"
+        CONTROLLER_USERNAME: "admin"
+        CONTROLLER_PASSWORD: "{{ hostvars['localhost']['aap_pass'] }}"
+        CONTROLLER_VERIFY_SSL: "false"

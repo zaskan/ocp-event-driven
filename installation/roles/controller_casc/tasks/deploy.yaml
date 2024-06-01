@@ -1,0 +1,190 @@
+---
+- name: Include variables
+  ansible.builtin.include_vars:
+    dir: vars
+
+- name: Create AAP organizations
+  ansible.controller.organization:
+    name: "{{ item.name }}"
+    description: "{{ item.desc }}"
+    state: present
+  loop: "{{ organizations }}"
+  when:
+    - lookup('file', 'vars/organizations.yaml', errors='ignore') is not none
+
+- name: Create AAP teams
+  ansible.controller.team:
+    name: "{{ item.name }}"
+    description: "{{ item.desc }}"
+    organization: "{{ item.org }}"
+    state: present
+  loop: "{{ teams }}"
+  when:
+    - lookup('file', 'vars/teams.yml', errors='ignore') is not none
+
+- name: Create AAP Users
+  ansible.controller.user:
+    username: "{{ item.username }}"
+    password: "{{ item.password }}"
+    email: "{{ item.email }}"
+    update_secrets: false
+    superuser: "{{ super_user }}"
+    auditor: "{{ auditor_user }}"
+    state: present
+  loop: "{{ users }}"
+  when:
+    - lookup('file', 'vars/users.yml', errors='ignore') is not none
+
+- name: Create AAP Inventories
+  ansible.controller.inventory:
+    name: "{{ item.name }}"
+    description: "{{ item.desc }}"
+    organization: "{{ item.org }}"
+    state: present
+    variables: "{{ item.vars | default('{}') }}"
+  loop: "{{ inventories }}"
+  when:
+    - lookup('file', 'vars/inventories.yml', errors='ignore') is not none
+
+- name: Add hosts
+  ansible.controller.host:
+    name: "{{ item.name }}"
+    description: "{{ item.desc }}"
+    inventory: "{{ item.inv }}"
+    variables: "{{ item.vars }}"
+    state: present
+  loop: "{{ inventory_hosts }}"
+  when:
+    - lookup('file', 'vars/hosts.yml', errors='ignore') is not none
+
+- name: Add Execution Enviroment
+  ansible.controller.execution_environment:
+    name: "{{ item.name }}"
+    image: "{{ item.desc }}"
+    state: present
+  loop: "{{ execution_enviroments }}"
+  when:
+    - lookup('file', 'vars/execution_environments.yml', errors='ignore') is not none
+
+- name: Create Custom Credential Types
+  ansible.controller.credential_type:
+    name: "{{ item.name }}"
+    kind: "{{ item.kind }}"
+    inputs: "{{ item.inputs }}"
+    injectors: "{{ item.injectors }}"
+    state: present
+  loop: "{{ custom_credential_types }}"
+  when:
+    - lookup('file', 'vars/credential_types.yml', errors='ignore') is not none
+
+- name: Create Credentials
+  ansible.controller.credential:
+    name: "{{ item.name }}"
+    description: "{{ item.desc }}"
+    organization: "{{ item.org }}"
+    credential_type: "{{ item.type }}"
+    update_secrets: true
+    inputs: "{{ item.inputs }}"
+    state: present
+  loop: "{{ credentials }}"
+  when:
+    - lookup('file', 'vars/credentials.yml', errors='ignore') is not none
+  no_log: false
+
+- name: Attach Galaxy Credentials to AAP organizations
+  ansible.controller.organization:
+    name: "{{ item.name }}"
+    description: "{{ item.desc }}"
+    state: present
+    galaxy_credentials: "{{ item.creds | default(omit) }}"
+  loop: "{{ organizations }}"
+  when:
+    - lookup('file', 'vars/organizations.yml', errors='ignore') is not none
+
+- name: Create SCM Projects
+  ansible.controller.project:
+    name: "{{ item.name }}"
+    description: "{{ item.desc }}"
+    organization: "{{ item.org }}"
+    branch: "{{ item.git_branch }}"
+    clean: true
+    credential: "{{ item.git_cred | default(omit) }}"
+    delete_on_update: true
+    type: git
+    update_on_launch: "{{ item.update_on_launch }}"
+    url: "{{ item.git_url }}"
+    state: present
+    update_project: true
+    wait: true
+  loop: "{{ projects }}"
+  when:
+    - lookup('file', 'vars/projects.yml', errors='ignore') is not none
+
+- name: Create AAP Inventory Sources
+  ansible.controller.inventory_source:
+    name: "{{ item.name }}"
+    description: "{{ item.desc }}"
+    organization: "{{ item.org }}"
+    state: present
+    inventory: "{{ item.inventory }}"
+    source: "{{ item.source }}"
+    source_path: "{{ item.source_path | default(omit) }}"
+    source_project: "{{ item.project | default(omit) }}"
+    source_vars: "{{ item.vars | default(omit) }}"
+    credential: "{{ item.credential | default(omit) }}"
+  loop: "{{ inventory_sources }}"
+  when:
+    - lookup('file', 'vars/inventory_sources.yml', errors='ignore') is not none
+
+- name: Create Applications
+  ansible.controller.application:
+    name: "{{ item.name }}"
+    description: "{{ item.desc }}"
+    organization: "{{ item.org }}"
+    authorization_grant_type: "{{ item.auth_grant_type }}"
+    client_type: public
+    state: present
+  loop: "{{ applications }}"
+  when:
+    - lookup('file', 'vars/applications.yml', errors='ignore') is not none
+
+- name: Create AAP Job Templates
+  ansible.controller.job_template:
+    name: "{{ item.name }}"
+    job_type: "run"
+    organization: "{{ item.org }}"
+    inventory: "{{ item.inv }}"
+    project: "{{ item.project }}"
+    playbook: "{{ item.playbook }}"
+    credentials: "{{ item.creds }}"
+    execution_environment: "{{ item.execution_environment }}"
+    extra_vars: "{{ item.extra_vars | default(omit) }}"
+    ask_variables_on_launch: "{{ item.ask_variables_on_launch | default(omit) }}"
+    ask_limit_on_launch: "{{ item.ask_limit_on_launch | default(omit) }}"
+    use_fact_cache: "{{ item.use_fact_cache | default(omit) }}"
+    allow_simultaneous: "{{ item.allow_simultaneous | default(omit) }}"
+    survey_enabled: "{{ item.survey_enabled | default(omit) }}"
+    survey_spec: "{{ item.survey_spec | default(omit) }}"
+    limit: "{{ item.limit | default(omit) }}"
+    state: present
+  loop: "{{ jobtemplates }}"
+  when:
+    - lookup('file', 'vars/job_templates.yml', errors='ignore') is not none
+
+- name: Create AAP Workflow Job Templates
+  ansible.controller.workflow_job_template:
+    name: "{{ item.name }}"
+    organization: "{{ item.org }}"
+    inventory: "{{ item.inv }}"
+    ask_limit_on_launch: "{{ item.ask_limit_on_launch }}"
+    ask_variables_on_launch: "{{ item.ask_variables_on_launch }}"
+    allow_simultaneous: "{{ item.allow_simultaneous }}"
+    schema: "{{ item.steps }}"
+    webhook_service: "{{ item.webhook | default(omit) }}"
+    survey_enabled: "{{ item.survey_enabled | default(omit) }}"
+    survey_spec: "{{ item.survey_spec | default(omit) }}"
+    extra_vars: "{{ item.extra_vars | default(omit) }}"
+    state: present
+  loop: "{{ workflowjobtemplates }}"
+  when:
+    - lookup('file', 'vars/workflow_job_templates.yml', errors='ignore') is not none

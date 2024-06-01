@@ -1,0 +1,35 @@
+workflowjobtemplates:
+  - name: "[WF] Test Workflow"
+    org: "{{ default_organization | default('Default') }}"
+    inv: ""
+    ask_variables_on_launch: false
+    ask_limit_on_launch: false
+    allow_simultaneous: false
+    survey_enabled: true
+    survey_spec: "{{ lookup('file', 'surveys/eda.json') }}"
+    steps:
+      - identifier: Create Test
+        unified_job_template:
+          organization:
+            name: "{{ default_organization | default('Default') }}"
+          name: "[JT] Create EDA"
+          type: job_template
+        credentials: []
+        related:
+          success_nodes:
+            - identifier: "Update EDA"
+          failure_nodes: []
+          always_nodes: []
+          credentials: []
+      - identifier: Update EDA
+        unified_job_template:
+          organization:
+            name: "{{ default_organization | default('Default') }}"
+          name: "[JT] EDA"
+          type: job_template
+        credentials: []
+        related:
+          success_nodes: []
+          failure_nodes: []
+          always_nodes: []
+          credentials: []

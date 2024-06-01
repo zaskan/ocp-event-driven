@@ -1,6 +1,10 @@
 ---
 - name: Install Demo in OpenShift
+  gather_facts: false
   hosts: localhost
+
+  vars_files:
+    - vars.yaml
 
   tasks:
     - name: Create Demo namespaces
@@ -16,11 +20,11 @@
         loop_var: namespace
 
     - name: Install Operators
-      include_role:
+      ansible.builtin.include_role:
         name: install_operators
 
     - name: ArgoCD
-      include_role:
+      ansible.builtin.include_role:
         name: argo_cd
 
     - name: Create demo environment on ArgoCD
@@ -50,9 +54,10 @@
                 prune: true
                 selfHeal: true
 
+    - name: Ansible Controller
+      ansible.builtin.include_role:
+        name: controller_casc
+
     - name: Display message after role execution
       ansible.builtin.debug:
         msg: "Running tasks after role execution"
-
-  vars_files:
-    - vars.yaml

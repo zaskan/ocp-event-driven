@@ -1,0 +1,7 @@
+registry credential: registry username
+decision_environment: registry.redhat.io/ansible-automation-platform-24/de-supported-rhel8:1.0.5-24
+projects: https://github.com/zaskan/ocp-event-driven.git
+user_controller_token
+rulebook_activations:
+  - alert_manager
+  - pvc ocp

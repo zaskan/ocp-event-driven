@@ -1,0 +1,4 @@
+inventories: 
+  - name: "Automation Controller Inventory"
+    desc: "Automation Controller Inventory"
+    org: "{{ default_organization | default('Default') }}"

@@ -1,0 +1,7 @@
+projects:
+  - name: "Ansible EDA Demo Project"
+    desc: "Ansible EDA Demo Project"
+    org: "{{ default_organization | default('Default') }}"
+    git_url: "{{ ansible_eda_scm }}" # Demo repository URL
+    git_branch: "{{ ansible_eda_scm_branch }}" # Demo repository branch
+    update_on_launch: no
