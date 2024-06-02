@@ -7,5 +7,3 @@
         servicenow_action: "{{ servicenow_action }}"
         servicenow_incident_title: "{{ servicenow_incident_title }}"
         servicenow_incident_description: "{{ servicenow_incident_description }}"
-
-- debug: msg="{{ servicenow_action }} and {{ servicenow_incident_title }} and {{ servicenow_incident_description }}"
