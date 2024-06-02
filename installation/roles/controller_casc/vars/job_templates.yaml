@@ -14,7 +14,7 @@ jobtemplates:
     org: "{{ default_organization | default('Default') }}"
     inv: "Automation Controller Inventory"
     project: "OCP Event-Driven Demo Project"
-    playbook: "playbooks/modify_openshift_object.yaml"
+    playbook: "playbooks/extend_pvc.yaml"
     creds:
       - "Gitea Credential"
     ask_variables_on_launch: true

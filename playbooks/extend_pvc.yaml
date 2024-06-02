@@ -59,4 +59,3 @@
         chdir: "/tmp/{{ operation_time }}"
       ignore_errors: true
       register: git_result
-
