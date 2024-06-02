@@ -1,15 +1,32 @@
-- name: Update incident {{ servicenow_incident_number }}
-  servicenow.itsm.incident:
-    state: on_hold
-    hold_reason: awaiting_problem
-    number: "{{ servicenow_incident_number }}"
-    close_code: "Solved (Work Around)"
-    close_notes: "Incident fixed by EVent-Driven Ansible. {{ servicenow_incident_notes }}"
+---
+- name: Test Snow API
+  hosts: localhost
+  tasks:
 
-- name: Closed incident {{ servicenow_incident_number }}
-  servicenow.itsm.incident:
-    state: closed
-    number: "{{ servicenow_incident_number }}"
-    close_code: "Closed/Resolved by Caller"
-    close_notes: "Incident fixed by EVent-Driven Ansible. {{ servicenow_incident_notes }}"
-    caller: "{{ servicenow_incident_caller }}"
+    - name: Update incident INC0010004
+      servicenow.itsm.incident_info:
+        instance:
+          host: https://dev243054.service-now.com
+          username: admin
+          password: si-6A2CJ%psK
+        number: "INC0010004"
+      register: result
+
+    - debug: msg="{{ result.records[0].sys_id }}"
+
+    - name: Closed incident
+      servicenow.itsm.incident:
+        instance:
+          host: https://dev243054.service-now.com
+          username: admin
+          password: si-6A2CJ%psK
+        resource: sc_incident
+        action: patch
+        sys_id: "{{ result.records[0].sys_id }}"
+        data:
+          state: 3
+          incident_state: 7
+          number: "INC0010004"
+          close_code: "Resolved by Caller"
+          close_notes: "Incident fixed by EVent-Driven Ansible."
+          caller: "eda"
