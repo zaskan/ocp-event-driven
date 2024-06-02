@@ -2,8 +2,6 @@
 - name: Extend PVC
   hosts: localhost
   gather_facts: true
-  vars:
-    extra_space_percentage: 20
 
   tasks:
 
@@ -37,9 +35,13 @@
       ansible.builtin.set_fact:
         current_size: "{{ file['content'] | b64decode | regex_search('storage:(.)+') | regex_search('[0-9]+') | int }}"
 
+    - name: Get Extra Space
+      ansible.builtin.set_fact:
+        extra_space: "{{ current_size * 20 / 100 }}"
+
     - name: Get New Size
       ansible.builtin.set_fact:
-        new_size: '{{ current_size + (current_size * 20 / 100) | int | round }}'
+        new_size: "{{ current_size + extra_space | int | round }}"
 
     - name: Modify Manifest
       ansible.builtin.lineinfile:
