@@ -9,7 +9,7 @@
     action: patch
     sys_id: "{{ result.records[0].sys_id }}"
     data:
-      state: 3
+      state: 7
       incident_state: 7
       number: "{{ servicenow_incident_number }}"
       close_code: "Resolved by Caller"
