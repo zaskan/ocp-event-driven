@@ -1,0 +1,25 @@
+{
+  "fields": [
+    {
+      "id": "sn_host",
+      "type": "string",
+      "label": "ServiceNow Host"
+    },
+    {
+      "id": "sn_username",
+      "type": "string",
+      "label": "ServiceNow Username"
+    },
+    {
+      "id": "sn_password",
+      "type": "string",
+      "label": "ServiceNow Password",
+      "secret": true
+    }
+  ],
+  "required": [
+    "sn_host",
+    "sn_username",
+    "sn_password"
+  ]
+}

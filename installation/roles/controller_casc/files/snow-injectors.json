@@ -1,0 +1,7 @@
+{
+  "env": {
+    "SN_HOST": "{{ sn_host }}",
+    "SN_PASSWORD": "{{ sn_password }}",
+    "SN_USERNAME": "{{ sn_username }}"
+  }
+}

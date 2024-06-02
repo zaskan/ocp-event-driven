@@ -1,0 +1,25 @@
+{
+  "fields": [
+    {
+      "id": "gitea_email",
+      "type": "string",
+      "label": "Gitea Email"
+    },
+    {
+      "id": "gitea_username",
+      "type": "string",
+      "label": "Gitea Username"
+    },
+    {
+      "id": "gitea_password",
+      "type": "string",
+      "label": "Gitea Password",
+      "secret": true
+    }
+  ],
+  "required": [
+    "gitea_email",
+    "gitea_username",
+    "gitea_password"
+  ]
+}
