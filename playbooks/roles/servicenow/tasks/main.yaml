@@ -1,0 +1,16 @@
+---
+- name: Open ServiceNow incident
+  hosts: localhost
+  gather_facts: false
+
+  tasks:
+    - name: Open ServiceNow incident
+      ansible.builtin.include_tasks:
+        file: open_incident.yaml
+        apply:
+          vars:
+            servicenow_action: "{{ servicenow_action }}"
+            servicenow_incident_title: "{{ servicenow_incident_title }}"
+            servicenow_incident_description: "{{ servicenow_incident_description }}"
+
+    - debug: msg="{{ servicenow_action }} and {{ servicenow_incident_title }} and {{ servicenow_incident_description }}"
