@@ -3,7 +3,7 @@ jobtemplates:
     org: "{{ default_organization | default('Default') }}"
     inv: "Automation Controller Inventory"
     project: "OCP Event-Driven Demo Project"
-    playbook: "playbooks/alertmanager_servicenow.yml"
+    playbook: "playbooks/alertmanager_servicenow.yaml"
     creds:
       - "Red Hat Ansible Automation Platform Credential"
     ask_variables_on_launch: true

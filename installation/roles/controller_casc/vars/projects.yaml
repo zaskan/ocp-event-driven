@@ -3,5 +3,5 @@ projects:
     desc: "OCP Event-Driven Demo Project"
     org: "{{ default_organization | default('Default') }}"
     git_url: "https://github.com/zaskan/ocp-event-driven.git"
-    git_branch: "master"
+    git_branch: "main"
     update_on_launch: false

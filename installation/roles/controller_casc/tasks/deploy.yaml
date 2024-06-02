@@ -71,7 +71,7 @@
     variables: "{{ item.vars | default('{}') }}"
   loop: "{{ inventories }}"
   when:
-    - lookup('file', 'vars/inventories.yml', errors='ignore') is not none
+    - lookup('file', 'vars/inventories.yaml', errors='ignore') is not none
 
 - name: Add hosts
   ansible.controller.host:
@@ -82,7 +82,7 @@
     state: present
   loop: "{{ inventory_hosts }}"
   when:
-    - lookup('file', 'vars/hosts.yml', errors='ignore') is not none
+    - lookup('file', 'vars/hosts.yaml', errors='ignore') is not none
 
 - name: Add Execution Enviroment
   ansible.controller.execution_environment:
@@ -115,7 +115,7 @@
     state: present
   loop: "{{ credentials }}"
   when:
-    - lookup('file', 'vars/credentials.yml', errors='ignore') is not none
+    - lookup('file', 'vars/credentials.yaml', errors='ignore') is not none
   no_log: false
 
 - name: Attach Galaxy Credentials to AAP organizations
@@ -128,24 +128,24 @@
   when:
     - lookup('file', 'vars/organizations.yml', errors='ignore') is not none
 
-- name: Create SCM Projects
+- name: Create Projects
   ansible.controller.project:
     name: "{{ item.name }}"
     description: "{{ item.desc }}"
     organization: "{{ item.org }}"
-    branch: "{{ item.git_branch }}"
-    clean: true
+    scm_branch: "{{ item.git_branch }}"
+    scm_clean: true
     credential: "{{ item.git_cred | default(omit) }}"
-    delete_on_update: true
-    type: git
-    update_on_launch: "{{ item.update_on_launch }}"
-    url: "{{ item.git_url }}"
+    scm_delete_on_update: true
+    scm_type: git
+    scm_update_on_launch: "{{ item.update_on_launch }}"
+    scm_url: "{{ item.git_url }}"
     state: present
     update_project: true
     wait: true
   loop: "{{ projects }}"
   when:
-    - lookup('file', 'vars/projects.yml', errors='ignore') is not none
+    - lookup('file', 'vars/projects.yaml', errors='ignore') is not none
 
 - name: Create AAP Inventory Sources
   ansible.controller.inventory_source:
@@ -162,18 +162,6 @@
   loop: "{{ inventory_sources }}"
   when:
     - lookup('file', 'vars/inventory_sources.yml', errors='ignore') is not none
-
-- name: Create Applications
-  ansible.controller.application:
-    name: "{{ item.name }}"
-    description: "{{ item.desc }}"
-    organization: "{{ item.org }}"
-    authorization_grant_type: "{{ item.auth_grant_type }}"
-    client_type: public
-    state: present
-  loop: "{{ applications }}"
-  when:
-    - lookup('file', 'vars/applications.yml', errors='ignore') is not none
 
 - name: Create AAP Job Templates
   ansible.controller.job_template:
@@ -196,7 +184,7 @@
     state: present
   loop: "{{ jobtemplates }}"
   when:
-    - lookup('file', 'vars/job_templates.yml', errors='ignore') is not none
+    - lookup('file', 'vars/job_templates.yaml', errors='ignore') is not none
 
 - name: Create AAP Workflow Job Templates
   ansible.controller.workflow_job_template:
