@@ -4,7 +4,7 @@
   gather_facts: false
 
   tasks:
-    - debug: msg="{{ payload }}"
+    - debug: msg="{{ payload.labels.snow_action }}"
 #    - name: Perform a Servicenow API Call
 #      ansible.builtin.include_role:
 #        name: servicenow
