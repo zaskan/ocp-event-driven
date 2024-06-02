@@ -60,6 +60,6 @@
         git_directory: "/tmp/{{ operation_time }}"
         git_email: "{{ lookup('env','GITEA_EMAIL') }}"
         git_user: "{{ lookup('env','GITEA_USERNAME') }}"
-        git_message: "Extended storage to {{ newsize }}"
+        git_message: "Extended storage to {{ new_size }}"
       register: git_result
 
