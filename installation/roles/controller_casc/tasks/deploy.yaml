@@ -102,7 +102,7 @@
     state: present
   loop: "{{ custom_credential_types }}"
   when:
-    - lookup('file', 'vars/credential_types.yml', errors='ignore') is not none
+    - lookup('file', 'vars/credential_types.yaml', errors='ignore') is not none
 
 - name: Create Credentials
   ansible.controller.credential:
@@ -116,7 +116,7 @@
   loop: "{{ credentials }}"
   when:
     - lookup('file', 'vars/credentials.yaml', errors='ignore') is not none
-  no_log: false
+  no_log: true
 
 - name: Attach Galaxy Credentials to AAP organizations
   ansible.controller.organization:
