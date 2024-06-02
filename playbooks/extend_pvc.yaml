@@ -1,0 +1,62 @@
+---
+- name: Extend PVC
+  hosts: localhost
+  gather_facts: true
+
+  tasks:
+
+    - name: Get current date
+      ansible.builtin.set_fact:
+        operation_time: "{{ ansible_date_time.iso8601_basic_short }}"
+
+    - name: Clone Configuration Repository
+      ansible.builtin.include_role:
+        name: git
+      vars:
+        git_repository: "{{ git_repository }}"
+        git_directory: "/tmp/{{ operation_time }}"
+        git_operation: clone
+      register: git_result
+
+    - name: Get Content of File
+      ansible.builtin.slurp:
+        src: "{{ manifest }}"
+      register: file
+
+    - name: Get key
+      ansible.builtin.set_fact:
+        key: "{{ file['content'] | b64decode | regex_search('storage:(.)+') }}"
+
+    - name: Get Unit
+      ansible.builtin.set_fact:
+        unit: "{{ key[-2:] }}"
+
+    - name: Get Current Size
+      ansible.builtin.set_fact:
+        current_size: "{{ file['content'] | b64decode | regex_search('storage:(.)+') | regex_search('[0-9]+') | int }}"
+
+    - name: Get New Size
+      ansible.builtin.set_fact:
+        new_size: "{{ current_size + (current_size * extra_space_percentage / 100) | int | round }}"
+
+    - name: Modify Manifest
+      ansible.builtin.lineinfile:
+        state: present
+        backrefs: true
+        path: "/tmp/{{ operation_time }}/{{ manifest }}"
+        regexp: '^(\s*)storage:.*'
+        line: '\1storage: {{ new_size }}{{ unit }}'
+
+    - name: Commit configuration to repository
+      ansible.builtin.shell: |
+        git config --global user.email "{{ lookup('env','GITEA_EMAIL') }}"
+        git config --global user.name "{{ lookup('env','GITEA_USERNAME') }}"
+        git pull
+        git add .
+        git commit -m "Extended storage to {{ newsize }}"
+        git push --repo="{{ git_repository | urlsplit("scheme")}}://{{ lookup('env','GITEA_USERNAME') }}:{{ lookup('env','GITEA_PASSWORD') }}@{{ git_repository | urlsplit("hostname") }}{{ git_repository | urlsplit('path') }}"
+      args:
+        chdir: "/tmp/{{ operation_time }}"
+      ignore_errors: true
+      register: git_result
+
