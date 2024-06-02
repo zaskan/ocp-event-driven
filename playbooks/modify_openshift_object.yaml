@@ -22,7 +22,7 @@
       ansible.builtin.find:
         paths:
           - "/tmp/{{ operation_time }}"
-        file_type: directory
+        file_type: file
         recurse: false
         use_regex: true
         patterns:
