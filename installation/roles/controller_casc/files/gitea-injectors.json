@@ -1,6 +1,6 @@
 {
   "env": {
-    "GITEA_HOST": "{{ gitea_email }}",
+    "GITEA_EMAIL": "{{ gitea_email }}",
     "GITEA_PASSWORD": "{{ gitea_password }}",
     "GITEA_USERNAME": "{{ gitea_username }}"
   }

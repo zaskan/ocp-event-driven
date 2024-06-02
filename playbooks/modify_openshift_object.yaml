@@ -10,9 +10,8 @@
         name: git
       vars:
         git_repository: "{{ git_repository }}"
-        git_directory: "/tmp"
+        git_directory: "/tmp/repo"
         git_operation: clone
       register: git_result
-
 
     - debug: msg="{{ git_result }}"
