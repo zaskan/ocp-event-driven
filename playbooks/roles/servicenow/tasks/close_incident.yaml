@@ -1,9 +1,9 @@
-- name: Update incident INC0010004
+- name: Get Info From Incident {{ servicenow_incident_number }}
   servicenow.itsm.incident_info:
     number: "{{ servicenow_incident_number }}"
   register: result
 
-- name: Closed incident
+- name: Close Incident {{ servicenow_incident_number }}
   servicenow.itsm.api:
     resource: incident
     action: patch
