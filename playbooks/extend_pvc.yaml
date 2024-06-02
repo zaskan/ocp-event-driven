@@ -20,7 +20,7 @@
 
     - name: Get Content of File
       ansible.builtin.slurp:
-        src: "{{ manifest }}"
+        src: "/tmp/{{ operation_time }}/{{ manifest }}"
       register: file
 
     - name: Get key
@@ -48,14 +48,15 @@
         line: '\1storage: {{ new_size }}{{ unit }}'
 
     - name: Commit configuration to repository
-      ansible.builtin.shell: |
-        git config --global user.email "{{ lookup('env','GITEA_EMAIL') }}"
-        git config --global user.name "{{ lookup('env','GITEA_USERNAME') }}"
-        git pull
-        git add .
-        git commit -m "Extended storage to {{ newsize }}"
-        git push --repo="{{ git_repository | urlsplit("scheme")}}://{{ lookup('env','GITEA_USERNAME') }}:{{ lookup('env','GITEA_PASSWORD') }}@{{ git_repository | urlsplit("hostname") }}{{ git_repository | urlsplit('path') }}"
-      args:
-        chdir: "/tmp/{{ operation_time }}"
-      ignore_errors: true
+      ansible.builtin.include_role:
+        name: git
+      vars:
+        git_repository: "{{ git_repository }}"
+        git_directory: "/tmp/{{ operation_time }}"
+        git_operation: push
+        git_email: "{{ lookup('env','GITEA_EMAIL') }}"
+        git_user: "{{ lookup('env','GITEA_USERNAME') }}"
+        git_message: "Extended storage to {{ newsize }}"
       register: git_result
+
+
