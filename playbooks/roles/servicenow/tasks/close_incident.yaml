@@ -6,9 +6,9 @@
     close_code: "Solved (Work Around)"
     close_notes: "Incident fixed by EVent-Driven Ansible. {{ servicenow_incident_notes }}"
 
-- name: Resolve incident {{ servicenow_incident_number }}
+- name: Closed incident {{ servicenow_incident_number }}
   servicenow.itsm.incident:
-    state: resolved
+    state: closed
     number: "{{ servicenow_incident_number }}"
     close_code: "Solved (Permanently)"
     close_notes: "Incident fixed by EVent-Driven Ansible. {{ servicenow_incident_notes }}"
