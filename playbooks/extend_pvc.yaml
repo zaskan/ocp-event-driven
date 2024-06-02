@@ -39,7 +39,7 @@
 
     - name: Get New Size
       ansible.builtin.set_fact:
-        new_size: '{{ current_size + (current_size * extra_space_percentage | int / 100) | int | round }}'
+        new_size: '{{ current_size + (current_size * 20 / 100) | int | round }}'
 
     - name: Modify Manifest
       ansible.builtin.lineinfile:
