@@ -1,6 +1,14 @@
+- name: Update incident {{ servicenow_incident_number }}
+  servicenow.itsm.incident:
+    state: on_hold
+    hold_reason: awaiting_problem
+    number: "{{ servicenow_incident_number }}"
+    close_code: "Solved (Permanently)"
+    close_notes: "Incident fixed by EVent-Driven Ansible. {{ servicenow_incident_notes }}"
+
 - name: Close incident {{ servicenow_incident_number }}
   servicenow.itsm.incident:
-    state: resolved
+    state: closed
     number: "{{ servicenow_incident_number }}"
     close_code: "Solved (Permanently)"
     close_notes: "Incident fixed by EVent-Driven Ansible. {{ servicenow_incident_notes }}"
