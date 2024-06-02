@@ -37,11 +37,11 @@
 
     - name: Get Extra Space
       ansible.builtin.set_fact:
-        extra_space: "{{ ( current_size | int ) * 20 // 100 }}"
+        extra_space: "{{ (current_size | int) * 20 // 100 }}"
 
     - name: Get New Size
       ansible.builtin.set_fact:
-        new_size: "{{ ( current_size | int ) + extra_space | int }}"
+        new_size: "{{ (current_size | int) + extra_space | int }}"
 
     - name: Modify Manifest
       ansible.builtin.lineinfile:
@@ -60,6 +60,5 @@
         git_directory: "/tmp/{{ operation_time }}"
         git_email: "{{ lookup('env','GITEA_EMAIL') }}"
         git_user: "{{ lookup('env','GITEA_USERNAME') }}"
-        git_message: "Extended storage to {{ new_size }}"
+        git_message: "Extended storage to {{ new_size }}{{ unit }}"
       register: git_result
-
