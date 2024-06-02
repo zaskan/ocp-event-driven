@@ -7,6 +7,12 @@
     - vars.yaml
 
   tasks:
+    - name: Servicenow
+      ansible.builtin.include_role:
+        name: servicenow_casc
+      vars:
+        snow_eda_username: "eda"
+        snow_eda_password: "password"
 
     - name: Ansible Controller
       ansible.builtin.include_role:

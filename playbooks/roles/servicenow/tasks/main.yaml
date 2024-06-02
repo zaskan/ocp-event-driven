@@ -7,3 +7,4 @@
         servicenow_action: "{{ servicenow_action }}"
         servicenow_incident_title: "{{ servicenow_incident_title }}"
         servicenow_incident_description: "{{ servicenow_incident_description }}"
+  when: servicenow_action == "open_incident"
