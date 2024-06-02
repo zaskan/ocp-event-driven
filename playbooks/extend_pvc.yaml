@@ -41,7 +41,7 @@
 
     - name: Get New Size
       ansible.builtin.set_fact:
-        new_size: "{{ current_size + extra_space | int | round }}"
+        new_size: "{{ ( current_size | int ) + extra_space }}"
 
     - name: Modify Manifest
       ansible.builtin.lineinfile:
