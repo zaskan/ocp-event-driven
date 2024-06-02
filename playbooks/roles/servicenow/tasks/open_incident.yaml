@@ -1,0 +1,2 @@
+---
+- debug: msg="{{ servicenow_action }} and {{ servicenow_incident_title }} and {{ servicenow_incident_description }}"
