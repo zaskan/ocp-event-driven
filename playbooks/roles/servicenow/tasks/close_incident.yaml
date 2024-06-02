@@ -4,7 +4,7 @@
     hold_reason: awaiting_problem
     number: "{{ servicenow_incident_number }}"
     close_code: "Solved (Work Around)"
-    close_notes: "Incident fixed by EVent-Driven Ansible. {{ servicenow_incident_notes }}
+    close_notes: "Incident fixed by EVent-Driven Ansible. {{ servicenow_incident_notes }}"
 
 - name: Resolve incident {{ servicenow_incident_number }}
   servicenow.itsm.incident:
