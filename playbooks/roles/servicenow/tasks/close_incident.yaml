@@ -3,10 +3,13 @@
     state: on_hold
     hold_reason: awaiting_problem
     number: "{{ servicenow_incident_number }}"
-    close_code: "Solved (Permanently)"
-    close_notes: "Incident fixed by EVent-Driven Ansible. {{ servicenow_incident_notes }}"
+    close_code: "Solved (Work Around)"
+    close_notes: "Incident fixed by EVent-Driven Ansible. {{ servicenow_incident_notes }}
 
 - name: Close incident {{ servicenow_incident_number }}
   servicenow.itsm.incident:
-    state: absent
+    state: closed
     number: "{{ servicenow_incident_number }}"
+    close_code: "Solved (Permanently)"
+    close_notes: "Incident fixed by EVent-Driven Ansible. {{ servicenow_incident_notes }}"
+    caller: "{{ servicenow_incident_caller }}"
