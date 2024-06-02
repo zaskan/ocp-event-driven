@@ -1,7 +1,7 @@
 projects:
-  - name: "Ansible EDA Demo Project"
-    desc: "Ansible EDA Demo Project"
+  - name: "OCP Event-Driven Demo Project"
+    desc: "OCP Event-Driven Demo Project"
     org: "{{ default_organization | default('Default') }}"
-    git_url: "{{ ansible_eda_scm }}" # Demo repository URL
-    git_branch: "{{ ansible_eda_scm_branch }}" # Demo repository branch
-    update_on_launch: no
+    git_url: "https://github.com/zaskan/ocp-event-driven.git"
+    git_branch: "master"
+    update_on_launch: false

@@ -1,11 +1,11 @@
 jobtemplates:
-  - name: "[JT] Test"
+  - name: "[JT] Servicenow Actions"
     org: "{{ default_organization | default('Default') }}"
     inv: "Automation Controller Inventory"
-    project: "Ansible EDA Demo Project"
-    playbook: "playbooks/tests.yml"
+    project: "OCP Event-Driven Demo Project"
+    playbook: "playbooks/alertmanager_servicenow.yml"
     creds:
       - "Red Hat Ansible Automation Platform Credential"
-    ask_variables_on_launch: false
+    ask_variables_on_launch: true
     allow_simultaneous: false
     execution_environment: "Default execution environment"
