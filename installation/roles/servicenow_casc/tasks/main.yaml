@@ -1,0 +1,279 @@
+---
+- name: Include Servicenow configuration vars
+  ansible.builtin.include_vars: "snow_objects.yaml"
+
+- name: Check if Ansible EDA user already exists
+  servicenow.itsm.api_info:
+    instance:
+      host: "{{ snow_instance_host }}"
+      username: "{{ snow_instance_username }}"
+      password: "{{ snow_instance_password }}"
+    resource: sys_user
+    sysparm_query: "user_name={{ snow_eda_username }}"
+    columns:
+      - sys_id
+  register: snow_eda_user_info
+
+- name: Create Ansible EDA user if doesn't exists
+  servicenow.itsm.api:
+    instance:
+      host: "{{ snow_instance_host }}"
+      username: "{{ snow_instance_username }}"
+      password: "{{ snow_instance_password }}"
+    resource: sys_user
+    action: post
+    data:
+      first_name: "Ansible"                                   
+      last_name: "EDA"                                      
+      name: "Ansible EDA"                                             
+      user_name: "{{ snow_eda_username }}"                           
+      user_password: "{{ snow_eda_password }}"                      
+      title: "Ansible EDA"                                   
+    query_params:
+      sysparm_input_display_value: true
+  register: new_snow_eda_user_info
+  when: snow_eda_user_info.record | length == 0
+
+- name: Retrieve Ansible EDA user sys_id
+  ansible.builtin.set_fact:
+    snow_eda_user_sys_id: "{{ item | json_query(query) }}"
+  vars:
+    query: "record[0].sys_id || record.sys_id"
+  loop:
+    - "{{ snow_eda_user_info }}"
+    - "{{ new_snow_eda_user_info }}"
+  when: item.record is defined
+
+- name: Get Admin role information
+  servicenow.itsm.api_info:
+    instance:
+      host: "{{ snow_instance_host }}"
+      username: "{{ snow_instance_username }}"
+      password: "{{ snow_instance_password }}"
+    resource: sys_user_role
+    sysparm_query: "name=admin"
+    columns:
+      - sys_id
+  register: snow_admin_role_info
+
+- name: Retrieve Admin role sys_id
+  ansible.builtin.set_fact:
+    snow_admin_role_sys_id: "{{ snow_admin_role_info | json_query(query) }}"
+  vars:
+    query: "record[0].sys_id || record.sys_id"
+  when: snow_admin_role_info.record is defined
+
+- name: Check if Ansible EDA user and Admin role are already linked
+  servicenow.itsm.api_info:
+    instance:
+      host: "{{ snow_instance_host }}"
+      username: "{{ snow_instance_username }}"
+      password: "{{ snow_instance_password }}"
+    resource: sys_user_has_role
+    sysparm_query: "user={{ snow_eda_user_sys_id }}^role={{ snow_admin_role_sys_id }}"
+    columns:
+      - sys_id
+  register: snow_eda_user_role_link_info
+
+- name: Link Ansible EDA user and Admin role
+  servicenow.itsm.api:
+    instance:
+      host: "{{ snow_instance_host }}"
+      username: "{{ snow_instance_username }}"
+      password: "{{ snow_instance_password }}"
+    resource: sys_user_has_role
+    action: post
+    data:
+      user: "{{ snow_eda_user_sys_id }}"
+      role: "{{ snow_admin_role_sys_id }}"
+  register: new_user_role_link_sys_id
+  when: snow_eda_user_role_link_info.record | length== 0
+
+- name: Check if Ansible group is already exists
+  servicenow.itsm.api_info:
+    instance:
+      host: "{{ snow_instance_host }}"
+      username: "{{ snow_instance_username }}"
+      password: "{{ snow_instance_password }}"
+    resource: sys_user_group
+    sysparm_query: "name=Ansible"
+    columns:
+      - sys_id
+  register: snow_ansible_group_info
+
+- name: Create Ansible group if doesn't exists
+  servicenow.itsm.api:
+    instance:
+      host: "{{ snow_instance_host }}"
+      username: "{{ snow_instance_username }}"
+      password: "{{ snow_instance_password }}"
+    resource: sys_user_group
+    action: post
+    data:
+      name: "Ansible"
+      description: "IT department responsible for all automation"
+  when: snow_ansible_group_info.record | length == 0
+
+- name: Get Check State Transition business rule information
+  servicenow.itsm.api_info:
+    instance:
+      host: "{{ snow_instance_host }}"
+      username: "{{ snow_instance_username }}"
+      password: "{{ snow_instance_password }}"
+    resource: sys_script
+    sysparm_query: "sys_name=Change Model: Check State Transition"
+    columns:
+      - sys_id
+  register: snow_state_business_rule_info
+
+- name: Retrieve Check State Transition business rule sys_id
+  ansible.builtin.set_fact:
+    snow_state_business_rule_sys_id: "{{ snow_state_business_rule_info | json_query(query) }}"
+  vars:
+    query: "record[0].sys_id || record.sys_id"
+  when: snow_state_business_rule_info.record is defined
+
+- name: Disable Check State Transition business rule
+  servicenow.itsm.api:
+    instance:
+      host: "{{ snow_instance_host }}"
+      username: "{{ snow_instance_username }}"
+      password: "{{ snow_instance_password }}"
+    resource: sys_script
+    action: patch
+    sys_id: "{{ snow_state_business_rule_sys_id }}"
+    data:
+      active: false
+
+- name: Retrieve Service Catalog sys_id
+  servicenow.itsm.api_info:
+    instance:
+      host: "{{ snow_instance_host }}"
+      username: "{{ snow_instance_username }}"
+      password: "{{ snow_instance_password }}"
+    resource: sc_catalog
+    sysparm_query: "title={{ snow_catalog_title }}"
+    columns: 
+      - sys_id
+  register: snow_catalog_sys_id
+
+- name: Check if Category already exists
+  servicenow.itsm.api_info:
+    instance:
+      host: "{{ snow_instance_host }}"
+      username: "{{ snow_instance_username }}"
+      password: "{{ snow_instance_password }}"
+    resource: sc_category
+    sysparm_query: "title={{ snow_category_item[0]['snow_category_title'] }}"
+    columns:
+      - sys_id
+  register: snow_category_info
+
+- name: Create Category if doesn't exists
+  servicenow.itsm.api:
+    instance:
+      host: "{{ snow_instance_host }}"
+      username: "{{ snow_instance_username }}"
+      password: "{{ snow_instance_password }}"
+    resource: sc_category
+    action: post
+    data:
+      sc_catalog: "{{ snow_catalog_sys_id.record[0]['sys_id'] }}"
+      title: "{{ snow_category_item[0]['snow_category_title'] }}"
+  register: new_snow_category_info
+  when: snow_category_info.record | length == 0 
+
+- name: Retrieve Category sys_id
+  ansible.builtin.set_fact:
+    snow_category_sys_id: "{{ item | json_query(query) }}"
+  vars:
+    query: "record[0].sys_id || record.sys_id"
+  loop:
+    - "{{ snow_category_info }}"
+    - "{{ new_snow_category_info }}"
+  when: item.record is defined
+
+- name: Check if Category Item already exists
+  servicenow.itsm.api_info:
+    instance:
+      host: "{{ snow_instance_host }}"
+      username: "{{ snow_instance_username }}"
+      password: "{{ snow_instance_password }}"
+    resource: sc_cat_item
+    sysparm_query: "name={{ snow_category_item[0]['snow_category_item_name'] }}"
+    columns:
+      - sys_id
+  register: snow_category_item_info
+
+- name: Create Category Item if doesn't exist
+  servicenow.itsm.api:
+    instance:
+      host: "{{ snow_instance_host }}"
+      username: "{{ snow_instance_username }}"
+      password: "{{ snow_instance_password }}"
+    resource: sc_cat_item
+    action: post
+    data:
+      name: "{{ snow_category_item[0]['snow_category_item_name'] }}"
+      short_description: "{{ snow_category_item[0]['snow_category_item_short_desc'] }}"
+      sc_catalogs: "{{ snow_catalog_sys_id.record[0]['sys_id'] }}"
+      category: "{{ snow_category_sys_id }}"
+  register: new_snow_category_item_info
+  when: snow_category_item_info.record | length == 0
+
+- name: Retrieve Category Item sys_id
+  ansible.builtin.set_fact:
+    snow_category_item_sys_id: "{{ item | json_query(query) }}"
+  vars:
+    query: "record[0].sys_id || record.sys_id"
+  loop:
+    - "{{ snow_category_item_info }}"
+    - "{{ new_snow_category_item_info }}"
+  when: item.record is defined
+ 
+- name: Initialize Category Item Variables list
+  ansible.builtin.set_fact:
+    snow_category_item_variables: []
+
+- name: Check if Category Item Variables already exists
+  servicenow.itsm.api_info:
+    instance:
+      host: "{{ snow_instance_host }}"
+      username: "{{ snow_instance_username }}"
+      password: "{{ snow_instance_password }}"
+    resource: item_option_new
+    sysparm_query: "name={{ item.name }}^cat_item={{ snow_category_item_sys_id }}"
+    columns:
+      - name
+  loop: "{{ snow_category_item[0]['snow_item_options'] }}"
+  register: snow_category_item_variables_info
+    
+- name: Append retrieved Category Item Variables to list
+  ansible.builtin.set_fact:
+    snow_category_item_variables: "{{ snow_category_item_variables + [ item | json_query(query) ] }}"
+  vars:
+    query: record[0].name
+  loop: "{{ snow_category_item_variables_info.results }}"
+  when: item.record
+
+- name: Create Category Item Variables if doesn't exists
+  servicenow.itsm.api:
+    instance:
+      host: "{{ snow_instance_host }}"
+      username: "{{ snow_instance_username }}"
+      password: "{{ snow_instance_password }}"
+    resource: item_option_new
+    action: post
+    data:
+      category: "{{ snow_category_sys_id }}"
+      cat_item: "{{ snow_category_item_sys_id }}"
+      name: "{{ item.name }}"
+      variable_name: "{{ item.name }}"
+      question_text: "{{ item.question }}"
+      type: "{{ item.type }}"
+      mandatory: "{{ item.mandatory }}"
+      read_only: "{{ item.read_only | default(omit) }}"
+      default_value: "{{ item.default_value | default(omit) }}"
+      order: "{{ item.order | default(omit) }}"
+  loop: "{{ snow_category_item[0]['snow_item_options'] }}"
+  when: snow_category_item_variables is defined and item.name not in snow_category_item_variables
