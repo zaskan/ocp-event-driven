@@ -168,6 +168,7 @@
     columns:
       - sys_id
   register: snow_category_info
+  when: snow_category_item[0] is defined
 
 - name: Create Category if doesn't exists
   servicenow.itsm.api:
@@ -181,7 +182,9 @@
       sc_catalog: "{{ snow_catalog_sys_id.record[0]['sys_id'] }}"
       title: "{{ snow_category_item[0]['snow_category_title'] }}"
   register: new_snow_category_info
-  when: snow_category_info.record | length == 0 
+  when:
+    - snow_category_item[0] is defined
+    - snow_category_info.record | length == 0
 
 - name: Retrieve Category sys_id
   ansible.builtin.set_fact:
@@ -204,6 +207,7 @@
     columns:
       - sys_id
   register: snow_category_item_info
+  when: snow_category_item[0] is defined
 
 - name: Create Category Item if doesn't exist
   servicenow.itsm.api:
@@ -219,7 +223,9 @@
       sc_catalogs: "{{ snow_catalog_sys_id.record[0]['sys_id'] }}"
       category: "{{ snow_category_sys_id }}"
   register: new_snow_category_item_info
-  when: snow_category_item_info.record | length == 0
+  when: 
+    - snow_category_item[0] is defined
+    - snow_category_item_info.record | length == 0
 
 - name: Retrieve Category Item sys_id
   ansible.builtin.set_fact:
@@ -246,15 +252,18 @@
     columns:
       - name
   loop: "{{ snow_category_item[0]['snow_item_options'] }}"
+  when: snow_category_item[0] is defined
   register: snow_category_item_variables_info
-    
+
 - name: Append retrieved Category Item Variables to list
   ansible.builtin.set_fact:
     snow_category_item_variables: "{{ snow_category_item_variables + [ item | json_query(query) ] }}"
   vars:
     query: record[0].name
   loop: "{{ snow_category_item_variables_info.results }}"
-  when: item.record
+  when: 
+    - item.record is defined 
+    - snow_category_item_variables_info.results is defined
 
 - name: Create Category Item Variables if doesn't exists
   servicenow.itsm.api:
@@ -276,4 +285,7 @@
       default_value: "{{ item.default_value | default(omit) }}"
       order: "{{ item.order | default(omit) }}"
   loop: "{{ snow_category_item[0]['snow_item_options'] }}"
-  when: snow_category_item_variables is defined and item.name not in snow_category_item_variables
+  when:
+    - snow_category_item_variables is defined
+    - item.name not in snow_category_item_variables
+    - snow_category_item[0] is defined
