@@ -1,0 +1,7 @@
+- name: Clone configuration repository
+  ansible.builtin.git:
+    repo: "{{ git_repository }}"
+    dest: "{{ git_directory }}"
+    clone: true
+    update: true
+    force: true

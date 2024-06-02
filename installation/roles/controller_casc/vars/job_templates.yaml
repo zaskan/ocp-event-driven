@@ -5,8 +5,18 @@ jobtemplates:
     project: "OCP Event-Driven Demo Project"
     playbook: "playbooks/alertmanager_servicenow.yaml"
     creds:
-      - "Red Hat Ansible Automation Platform Credential"
       - "ServiceNow Credential"
+    ask_variables_on_launch: true
+    allow_simultaneous: false
+    execution_environment: "Default execution environment"
+
+  - name: "[JT] Extend PVC"
+    org: "{{ default_organization | default('Default') }}"
+    inv: "Automation Controller Inventory"
+    project: "OCP Event-Driven Demo Project"
+    playbook: "playbooks/modify_openshift_object.yaml"
+    creds:
+      - "Gitea Credential"
     ask_variables_on_launch: true
     allow_simultaneous: false
     execution_environment: "Default execution environment"

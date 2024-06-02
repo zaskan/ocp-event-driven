@@ -1,0 +1,18 @@
+---
+- name: Modify Openshift Object
+  hosts: localhost
+  gather_facts: false
+
+  tasks:
+
+    - name: Clone Configuration Repository
+      ansible.builtin.include_role:
+        name: git
+      vars:
+        git_repository: "{{ git_repository }}"
+        git_directory: "/tmp"
+        git_operation: clone
+      register: git_result
+
+
+    - debug: msg="{{ git_result }}"
