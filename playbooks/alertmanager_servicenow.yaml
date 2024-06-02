@@ -11,4 +11,4 @@
       vars:
         servicenow_action: "{{ payload.labels.snow_action }}"
         servicenow_incident_title: "{{ payload.labels.alertname }}"
-        servicenow_incident_description: "{{ payload.labels.description }}{{ payload.labels.summary }}"
+        servicenow_incident_description: "{{ payload.annotations.description }}{{ payload.annotations.summary }}"
