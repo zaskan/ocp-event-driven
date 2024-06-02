@@ -13,3 +13,6 @@
         run_job_template:
           name: "Demo Job Template"
           organization: "Default"
+          job_args:
+            extra_vars:
+              payload: "{{ event.alert }}"
