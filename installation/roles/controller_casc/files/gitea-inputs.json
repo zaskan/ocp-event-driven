@@ -1,6 +1,11 @@
 {
   "fields": [
     {
+      "id": "gitea_repo",
+      "type": "string",
+      "label": "Gitea Repository"
+    },
+    {
       "id": "gitea_email",
       "type": "string",
       "label": "Gitea Email"
@@ -18,6 +23,7 @@
     }
   ],
   "required": [
+    "gitea_repo",
     "gitea_email",
     "gitea_username",
     "gitea_password"

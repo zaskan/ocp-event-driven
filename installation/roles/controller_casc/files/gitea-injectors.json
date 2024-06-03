@@ -1,5 +1,6 @@
 {
   "env": {
+    "GITEA_REPO": "{{ gitea_repo }}",
     "GITEA_EMAIL": "{{ gitea_email }}",
     "GITEA_PASSWORD": "{{ gitea_password }}",
     "GITEA_USERNAME": "{{ gitea_username }}"
