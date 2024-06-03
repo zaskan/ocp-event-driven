@@ -15,3 +15,4 @@
         servicenow_incident_caller: "eda"
         servicenow_incident_impact: "low"
         servicenow_incident_urgency: "high"
+        servicenow_incident_work_notes: "{{ payload.labels.worknotes }}"

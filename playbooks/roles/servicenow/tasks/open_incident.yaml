@@ -6,6 +6,8 @@
     description: "{{ servicenow_incident_description }}"
     impact: "{{ servicenow_incident_impact }}"
     urgency: "{{ servicenow_incident_urgency }}"
+    other:
+      work_notes: "{{ servicenow_incident_work_notes }}"
   register: incident
 
 - name: Set ServiceNow incident state
