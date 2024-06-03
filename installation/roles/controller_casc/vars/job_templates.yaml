@@ -14,7 +14,9 @@ jobtemplates:
     org: "{{ default_organization | default('Default') }}"
     inv: "Automation Controller Inventory"
     project: "OCP Event-Driven Demo Project"
-    playbook: "playbooks/servicenow_get_info.yaml"
+    playbook: "playbooks/servicenow_get_incident_info.yaml"
+    creds:
+      - "ServiceNow Credential"
     ask_variables_on_launch: true
     allow_simultaneous: true
     execution_environment: "Default execution environment"

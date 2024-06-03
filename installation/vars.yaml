@@ -3,7 +3,6 @@ demoNamespaces:
   # Exclude operators installation namespaces
   - name: gitea
   - name: app01
-  - name: app02
   - name: aap
 
 imagesSource:
@@ -31,6 +30,5 @@ operators:
     channel: stable-1.3
     source: redhat-operators
     sourcenamespace: openshift-marketplace
-    clusterwide: true
-
+    clusterwide: false
 

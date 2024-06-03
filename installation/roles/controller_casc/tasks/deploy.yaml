@@ -116,7 +116,7 @@
   loop: "{{ credentials }}"
   when:
     - lookup('file', 'vars/credentials.yaml', errors='ignore') is not none
-  no_log: true
+  no_log: false
 
 - name: Attach Galaxy Credentials to AAP organizations
   ansible.controller.organization:
