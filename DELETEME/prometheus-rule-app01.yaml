@@ -18,7 +18,7 @@ spec:
           manifest: pvc.yaml
           
         annotations:
-          summary: "PVC {{ $labels.persistentvolumeclaim }} usage is above 80%" #TODO Beautify these lines
+          summary: "PVC {{ $labels.persistentvolumeclaim }} usage above 80%" #TODO Beautify these lines
           description: |
             PVC {{ $labels.persistentvolumeclaim }} usage is at {{ printf "%.2f" $value }}%. 
             
