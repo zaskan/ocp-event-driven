@@ -7,22 +7,26 @@
     - vars.yaml
 
   tasks:
-    - name: Servicenow
+#    - name: Servicenow
+#      ansible.builtin.include_role:
+#        name: servicenow_casc
+#      vars:
+#        snow_eda_username: "eda"
+#        snow_eda_password: "password"
+#
+#    - name: Ansible Controller
+#      ansible.builtin.include_role:
+#        name: controller_casc
+#
+#    - name: Ansible EDA
+#      ansible.builtin.include_role:
+#        name: eda_casc
+#      vars:
+#        eda_casc_controller_token: "{{ application_token }}"
+#
+    - name: Extras
       ansible.builtin.include_role:
-        name: servicenow_casc
-      vars:
-        snow_eda_username: "eda"
-        snow_eda_password: "password"
-
-    - name: Ansible Controller
-      ansible.builtin.include_role:
-        name: controller_casc
-
-    - name: Ansible EDA
-      ansible.builtin.include_role:
-        name: eda_casc
-      vars:
-        eda_casc_controller_token: "{{ application_token }}"
+        name: extras
 
     - name: Display message after role execution
       ansible.builtin.debug:

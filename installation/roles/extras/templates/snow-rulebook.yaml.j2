@@ -1,0 +1,25 @@
+---
+- name: ServiceNow EDA Listener
+  hosts: localhost
+
+  sources:
+     - name: Check new service requests
+       ansible_ssa.eda.new_snow_record:
+         instance: "{{ snow_instance_host }}"
+         username: "{{ snow_eda_username }}"
+         password: "{{ snow_eda_password }}"
+         table: incident
+         interval: 1
+
+{% raw %}
+  rules:
+    - name: Deploy cloud Virtual Router
+      condition: event.short_description == "PVCUsageHigh"
+      action:
+        run_workflow_template:
+          name: "[WF] Extend PVC"
+          organization: Default
+          job_args:
+            extra_vars:
+              incident_id: "{{ event.number }}"
+{% endraw %}

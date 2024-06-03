@@ -1,0 +1,8 @@
+- name: Create Extra Objects in Openshift (Outside Argocd)
+  kubernetes.core.k8s:
+    state: present
+    src: "{{ item }}"
+    namespace: app02
+  with_fileglob:
+    - "files/app02/*"
+    - "files/alertmanager/*"

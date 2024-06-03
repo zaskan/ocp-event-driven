@@ -10,7 +10,16 @@ jobtemplates:
     allow_simultaneous: false
     execution_environment: "Default execution environment"
 
-  - name: "[JT] Extend PVC"
+  - name: "[JT] Extract Information from Servicenow Ticket"
+    org: "{{ default_organization | default('Default') }}"
+    inv: "Automation Controller Inventory"
+    project: "OCP Event-Driven Demo Project"
+    playbook: "playbooks/servicenow_get_info.yaml"
+    ask_variables_on_launch: true
+    allow_simultaneous: true
+    execution_environment: "Default execution environment"
+
+  - name: "[JT] Extend Physical Volume"
     org: "{{ default_organization | default('Default') }}"
     inv: "Automation Controller Inventory"
     project: "OCP Event-Driven Demo Project"

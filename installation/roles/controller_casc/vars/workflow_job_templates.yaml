@@ -1,44 +1,42 @@
 scm_workflowjobtemplates:
-  - name: "[WF] Expand Pyhical Volume"
+  - name: "[WF] Extend Openshift Physical Volume"
     org: "{{ default_organization | default('Default') }}"
     inv: ""
-    ask_variables_on_launch: false
+    ask_variables_on_launch: true
     ask_limit_on_launch: false
     allow_simultaneous: true
-    survey_enabled: true
-    survey_spec: "{{ lookup('file', 'surveys/infra_deploy_vm.json') }}"
     steps:
-       - identifier: Open Servicenow Incident
+       - identifier: Get Servicenow Incident Data
+         unified_job_template:
+           organization:
+             name: "{{ default_organization | default('Default') }}"
+           name: "[JT] Extract Information from Servicenow Ticket"
+           type: job_template
+         credentials: []
+         related:
+           success_nodes:
+             - identifier: "Extend Physical Volume"
+           failure_nodes: []
+           always_nodes: []
+           credentials: []
+       - identifier: Extend Physical Volume
+         unified_job_template:
+           organization:
+             name: "{{ default_organization | default('Default') }}"
+           name: "[JT] Extend Physical Volume"
+           type: job_template
+         credentials: []
+         related:
+           success_nodes:
+             - identifier: "Close Servicenow Ticket"
+           failure_nodes: []
+           always_nodes: []
+           credentials: []
+       - identifier: Close Servicenow Ticket
          unified_job_template:
            organization:
              name: "{{ default_organization | default('Default') }}"
            name: "[JT] Servicenow Actions"
-           type: job_template
-         credentials: []
-         related:
-           success_nodes:
-             - identifier: "Configure Oracle Machine"
-           failure_nodes: []
-           always_nodes: []
-           credentials: []
-       - identifier: Configure Oracle Machine
-         unified_job_template:
-           organization:
-             name: "{{ default_organization | default('Default') }}"
-           name: "[JT] [Oracle] Configure Machine"
-           type: job_template
-         credentials: []
-         related:
-           success_nodes:
-             - identifier: "Install Oracle Software"
-           failure_nodes: []
-           always_nodes: []
-           credentials: []
-       - identifier: Install Oracle Software
-         unified_job_template:
-           organization:
-             name: "{{ default_organization | default('Default') }}"
-           name: "[JT] [Oracle] Deploy Oracle"
            type: job_template
          credentials: []
          related:
