@@ -28,8 +28,18 @@
     aap_pass: "{{ controller_password.resources[0].data.password | ansible.builtin.b64decode }}"
 
 - name: Wait for Ansible Controller API to be ready
-  ansible.builtin.debug:
-    msg: "{{ lookup('awx.awx.controller_api', '/api/v2/me', host=controller.resources[0].spec.host,
-             username='admin', password=aap_pass, verify_ssl=False) }}"
+  ansible.builtin.uri:
+    url: "https://{{ controller.resources[0].spec.host }}/api/v2/me"
+    user: "admin"
+    password: "{{ aap_pass }}"
+    method: GET
+    headers:
+      Content-Type: application/json
+    body_format: json
+    validate_certs: false
+    force_basic_auth: true
+    status_code:
+      - 200
+    return_content: true
   retries: 60
   delay: 10
