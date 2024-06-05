@@ -4,5 +4,6 @@
     src: "{{ item }}"
     namespace: app02
   with_fileglob:
-    - "files/app02/*"
     - "files/alertmanager/*"
+    - "files/app02/namespace/*"
+    - "files/app02/others/*"

@@ -28,9 +28,8 @@
     aap_pass: "{{ controller_password.resources[0].data.password | ansible.builtin.b64decode }}"
 
 - name: Wait for Ansible Controller API to be ready
-  ansible.builtin.uri:
-    url: "https://{{ controller.resources[0].spec.host }}/api/v2/ping"
-    validate_certs: false
-    status_code: 200
+  ansible.builtin.debug:
+    msg: "{{ lookup('awx.awx.controller_api', '/api/v2/me', host=controller.resources[0].spec.host,
+             username='admin', password=aap_pass, verify_ssl=False) }}"
   retries: 60
   delay: 10
