@@ -70,3 +70,15 @@
         git_user: "{{ lookup('env','GITEA_USERNAME') }}"
         git_message: "Added Rulebook"
       register: git_result
+
+    - name: Sync EDA Project
+      infra.eda_configuration.project:
+        name: servicenow-rulebook
+        wait: true
+        interval: 5
+        timeout: 60
+
+    - name: Restart eda rulebook activation
+      infra.eda_configuration.rulebook_activation:
+        name: Alertmanager listener
+        state: restarted

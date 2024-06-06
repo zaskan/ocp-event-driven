@@ -1,2 +1,7 @@
 - name: Install Openshift Extras
   ansible.builtin.include_tasks: openshift_extras.yaml
+
+- name: Create Servicenow EDA 
+  ansible.controller.job_launch:
+    job_template: "[JT] Create APP02 Event-Driven Ansible Objects"
+  register: job

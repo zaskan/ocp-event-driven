@@ -1,0 +1,25 @@
+{
+  "fields": [
+    {
+      "id": "eda_host",
+      "type": "string",
+      "label": "EDA Hostname"
+    },
+    {
+      "id": "eda_user",
+      "type": "string",
+      "label": "EDA Username"
+    },
+    {
+      "id": "eda_pass",
+      "type": "string",
+      "label": "EDA Password",
+      "secret": "true"
+    }
+  ],
+  "required": [
+    "eda_host",
+    "eda_user",
+    "eda_pass"
+  ]
+}

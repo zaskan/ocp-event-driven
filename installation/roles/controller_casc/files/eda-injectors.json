@@ -1,0 +1,7 @@
+{
+  "env": {
+    "EDA_HOST": "{{ eda_host }}",
+    "EDA_USERNAME": "{{ eda_user }}",
+    "EDA_PASSWORD": "{{ eda_pass }}"
+  }
+}

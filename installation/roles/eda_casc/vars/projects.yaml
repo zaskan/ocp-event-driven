@@ -1,4 +1,8 @@
 projects:
   - name: ocp-event-driven
-    description: Ocp Event Driven Demo
+    description: Ocp Event Driven Demo Alertmanager
     url: https://github.com/zaskan/ocp-event-driven.git
+
+  - name: servicenow-rulebook
+    description: Ocp Event Driven Demo Servicenow
+    url: http://gitea.gitea.svc.cluster.local:3000/gitea/app02.git

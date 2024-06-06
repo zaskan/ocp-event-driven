@@ -7,3 +7,12 @@ activations:
     enabled: true
     awx_token: "Ansible Controller"
     state: present
+
+  - name: Servicenow
+    description: Alertmanager listener
+    project: servicenow
+    rulebook: snow-rulebook.yaml
+    decision_environment: Servicenow Decision Environment
+    enabled: false
+    awx_token: "Ansible Controller"
+    state: present

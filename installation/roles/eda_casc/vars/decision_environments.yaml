@@ -5,4 +5,4 @@ decision_environments:
     credential: "registry_credential"
   - name: Servicenow Decision Environment
     description: Servicenow Decision Environment
-    image_url: "quay.io/ansible_eda/ansible-eda-de:1.1"
+    image_url: "quay.io/rh-ee-dwaters/snow-de"

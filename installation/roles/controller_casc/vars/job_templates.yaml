@@ -31,3 +31,17 @@ jobtemplates:
     ask_variables_on_launch: true
     allow_simultaneous: false
     execution_environment: "Default execution environment"
+
+  - name: "[JT] Create APP02 Event-Driven Ansible Objects"
+    org: "{{ default_organization | default('Default') }}"
+    inv: "Automation Controller Inventory"
+    project: "OCP Event-Driven Demo Project"
+    playbook: "playbooks/create_app02_repo.yaml"
+    creds:
+      - "Gitea Credential"
+      - "Event-Driven Ansible Credential"
+      - "ServiceNow Credential"
+      - "Red Hat Ansible Automation Platform Credential"
+    ask_variables_on_launch: false
+    allow_simultaneous: false
+    execution_environment: "Default execution environment"
