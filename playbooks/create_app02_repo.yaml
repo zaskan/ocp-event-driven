@@ -20,6 +20,7 @@
           name: "app02"
           private: false
           trust_model: "default"
+        status_code: 201
 
     - name: Create a temp directory for app02
       ansible.builtin.file:
