@@ -14,10 +14,10 @@
           Content-Type: application/json
         body:
           auto_init: true
-          default_branch: master
-          name: app02
+          default_branch: "master"
+          name: "app02"
           private: false
-          trust_model: default
+          trust_model: "default"
 
     - name: Create a temp directory for app02
       ansible.builtin.file:
