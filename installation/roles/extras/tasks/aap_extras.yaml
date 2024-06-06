@@ -1,0 +1,53 @@
+---
+- name: Create app02 repository and upload rulebook
+  hosts: localhost
+  gather_facts: true
+  tasks:
+
+    - name: Create app02 repository
+      ansible.builtin.uri:
+        url: "{{ lookup('env','GITEA_REPO') }} | urlsplit('scheme')}}://{{ lookup('env','GITEA_REPO') | urlsplit('hostname') }}:{{ lookup('env','GITEA_REPO') | urlsplit('port') }}/api/v1/user/repos"
+        user: "{{ lookup('env','GITEA_USERNAME') }}"
+        password: "{{ lookup('env','GITEA_PASSWORD') }}"
+        method: POST
+        headers:
+          Content-Type: application/json
+        body:
+          auto_init: true
+          default_branch: master
+          name: app02
+          private: false
+          trust_model: default
+
+    - name: Create a temp directory for app02
+      ansible.builtin.file:
+        path: /tmp/app02
+        state: directory
+        mode: '0755'
+
+    - name: Clone app02 repository
+      ansible.builtin.git:
+        repo: "{{ lookup('env','GITEA_REPO') }} | urlsplit('scheme')}}://{{ lookup('env','GITEA_REPO') | urlsplit('hostname') }}:{{ lookup('env','GITEA_REPO') | urlsplit('port') }}/gitea/app02.git"
+        dest: /tmp/app02
+        clone: true
+        update: true
+        force: true
+
+    - name: Template Servicenow Rulebook
+      ansible.builtin.template:
+        src: ../templates/snow-rulebook.yaml.j2
+        dest: /tmp/app02/snow-rulebook.yaml
+        mode: '0644'
+
+    - name: Commit configuration to repository
+      ansible.builtin.shell: |
+        git config --global user.email "gitea@gitea.com"
+        git config --global user.name "gitea"
+        git pull
+        git add .
+        git commit -m "{{ git_message }}"
+        git push --repo="{{ lookup('env','GITEA_REPO') | urlsplit("scheme")}}://{{ lookup('env','GITEA_USERNAME') }}:{{ lookup('env','GITEA_PASSWORD') }}@{{ lookup('env','GITEA_REPO') | urlsplit("hostname") }}:{{ lookup('env','GITEA_REPO') | urlsplit('port') }}/gitea/app02.git"
+      args:
+        chdir: "/tmp/app02"
+      ignore_errors: true
+      register: git_result

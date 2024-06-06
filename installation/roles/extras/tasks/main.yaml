@@ -1,5 +1,2 @@
 - name: Install Openshift Extras
   ansible.builtin.include_tasks: openshift_extras.yaml
-
-- name: Configure Servicenow EDA Activation
-  
