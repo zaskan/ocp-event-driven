@@ -12,6 +12,7 @@
         method: POST
         headers:
           Content-Type: application/json
+        body_format: "json"
         body:
           auto_init: true
           default_branch: "master"
