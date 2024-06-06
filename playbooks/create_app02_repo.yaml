@@ -6,7 +6,7 @@
 
     - name: Create app02 repository
       ansible.builtin.uri:
-        url: "{{ lookup('env','GITEA_REPO') }} | urlsplit('scheme')}}://{{ lookup('env','GITEA_REPO') | urlsplit('hostname') }}:{{ lookup('env','GITEA_REPO') | urlsplit('port') }}/api/v1/user/repos"
+        url: "{{ lookup('env','GITEA_REPO') | urlsplit('scheme')}}://{{ lookup('env','GITEA_REPO') | urlsplit('hostname') }}:{{ lookup('env','GITEA_REPO') | urlsplit('port') }}/api/v1/user/repos"
         user: "{{ lookup('env','GITEA_USERNAME') }}"
         password: "{{ lookup('env','GITEA_PASSWORD') }}"
         method: POST
