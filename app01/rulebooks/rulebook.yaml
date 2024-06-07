@@ -1,0 +1,38 @@
+---
+- name: EDA Listener for Alertmanager and Servicenow
+  hosts: localhost
+  sources:
+    - name: Listen to Alertmanager
+      ansible.eda.alertmanager:
+      host: 0.0.0.0
+      port: 5000
+      data_host_path: ""
+
+    - name: Check new Incidents
+      cloin.eda.snow_records:
+        instance: "{{ instance }}"
+        username: "{{ username }}"
+        password: "{{ password }}"
+        table: incident
+        interval: 1
+  rules:
+    - name: Get PVCUsageHigh alerts
+      condition: event.alert.labels.alertname == "PVCUsageHigh"
+      action:
+        run_job_template:
+          name: "[JT] Open Servicenow Incident"
+          organization: "Default"
+          job_args:
+            extra_vars:
+              payload: "{{ event.alert }}"
+
+    - name: Extend PVC
+      condition: event.short_description == "PVCUsageHigh"
+      action:
+        run_workflow_template:
+          name: "[WF] Extend Openshift Physical Volume"
+          organization: Default
+          job_args:
+            extra_vars:
+              incident_id: "{{ event.number }}"
+              description: "{{ event.description }}"
