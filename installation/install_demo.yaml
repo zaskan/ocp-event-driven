@@ -61,10 +61,6 @@
 #        snow_eda_username: "{{ snow_eda_username }}"
 #        snow_eda_password: "{{ snow_eda_password }}"
 
-    - name: Gitea Projects
-      ansible.builtin.include_role:
-        name: gitea
-
     - name: Ansible Controller
       ansible.builtin.include_role:
         name: controller_casc

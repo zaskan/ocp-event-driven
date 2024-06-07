@@ -1,8 +1,4 @@
 decision_environments:
-  - name: Default Decision Environment
-    description: Default Decision Environment
-    image_url: "registry.redhat.io/ansible-automation-platform-24/de-supported-rhel8:1.0.5-24"
-    credential: "registry_credential"
-  - name: Servicenow Decision Environment
+  - name: EDA Decision Environment
     description: Servicenow Decision Environment
-    image_url: "quay.io/rh-ee-dwaters/snow-de"
+    image_url: "quay.io/rhn_support_rafsanch/de-eda-rhel8:latest"

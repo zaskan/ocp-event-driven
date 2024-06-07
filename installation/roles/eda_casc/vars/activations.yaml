@@ -1,18 +1,13 @@
-activations: 
-  - name: Alertmanager
-    description: Alertmanager listener
+activations:
+  - name: ocp-eda-demo
+    description: OCP EDA Demo listener for Servicenow and Alertmanager
     project: ocp-event-driven
-    rulebook: alertmanager.yaml
+    rulebook: rulebook.yaml
     decision_environment: Default Decision Environment
     enabled: true
     awx_token: "Ansible Controller"
     state: present
-
-  - name: Servicenow
-    description: Servicenow listener
-    project: servicenow-rulebook
-    rulebook: snow-rulebook.yaml
-    decision_environment: Servicenow Decision Environment
-    enabled: true
-    awx_token: "Ansible Controller"
-    state: present
+    extra_vars:
+      instance: "{{ snow_instance_host }}"
+      username: "{{ snow_instance_username }}"
+      password: "{{ snow_instance_password }}"
