@@ -1,0 +1,17 @@
+---
+- name: Pass parameters from Alertmanager to Servicenow
+  hosts: localhost
+  gather_facts: false
+
+  tasks:
+
+    - name: Perform a Servicenow API Call
+      ansible.builtin.include_role:
+        name: servicenow
+      vars:
+        servicenow_action: "{{ payload.labels.snow_action }}"
+        servicenow_incident_title: "{{ payload.labels.alertname }}"
+        servicenow_incident_description: "description:{{ payload.annotations.description }}\ndetails:{{ payload.annotations.summary }}\nmanifest:{{ payload.labels.manifest }}\nnamespace:{{ payload.labels.namespace }}"
+        servicenow_incident_caller: "eda"
+        servicenow_incident_impact: "low"
+        servicenow_incident_urgency: "high"

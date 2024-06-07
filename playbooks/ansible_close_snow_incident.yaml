@@ -1,0 +1,16 @@
+---
+- name: Pass parameters from Alertmanager to Servicenow
+  hosts: localhost
+  gather_facts: false
+
+  tasks:
+
+    - name: Perform a Servicenow API Call
+      ansible.builtin.include_role:
+        name: servicenow
+      vars:
+        servicenow_action: "close_incident"
+        servicenow_incident_number: "{{ incident_id }}"
+        servicenow_incident_notes: "{{ ansible_eda.rule }} rule Applied."
+        servicenow_incident_caller: "eda"
+
