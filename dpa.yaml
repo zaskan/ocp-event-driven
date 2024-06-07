@@ -1,0 +1,13 @@
+apiVersion: oadp.openshift.io/v1alpha1
+kind: DataProtectionApplication
+metadata:
+  name: dpa-velero
+spec:
+  configuration:
+    nodeAgent:
+      enable: true
+      uploaderType: kopia
+    velero:
+      defaultPlugins:
+      - openshift
+      - aws
