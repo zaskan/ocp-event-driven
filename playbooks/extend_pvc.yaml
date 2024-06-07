@@ -7,7 +7,7 @@
 
     - name: Get manifest file
       ansible.builtin.set_fact:
-        manifest: "{{ description | regex_search('manifest:\\s*(\\w+\\.([a-zA-Z]+))', '\\1') }}"
+        manifest: "{{ description | regex_search('manifest:\\s*(\\w+\\.([a-zA-Z]+))', '\\1')[0] }}"
 
     - name: Get current date
       ansible.builtin.set_fact:
