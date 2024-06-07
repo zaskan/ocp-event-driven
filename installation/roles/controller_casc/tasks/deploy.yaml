@@ -202,4 +202,4 @@
     state: present
   loop: "{{ workflowjobtemplates }}"
   when:
-    - lookup('file', 'vars/workflow_job_templates.yml', errors='ignore') is not none
+    - lookup('file', 'vars/workflow_job_templates.yaml', errors='ignore') is not none
