@@ -1,4 +1,4 @@
-scm_workflowjobtemplates:
+workflowjobtemplates:
   - name: "[WF] Extend Openshift Physical Volume"
     org: "{{ default_organization | default('Default') }}"
     inv: ""
@@ -6,19 +6,6 @@ scm_workflowjobtemplates:
     ask_limit_on_launch: false
     allow_simultaneous: true
     steps:
-       - identifier: Get Servicenow Incident Data
-         unified_job_template:
-           organization:
-             name: "{{ default_organization | default('Default') }}"
-           name: "[JT] Extract Information from Servicenow Ticket"
-           type: job_template
-         credentials: []
-         related:
-           success_nodes:
-             - identifier: "Extend Physical Volume"
-           failure_nodes: []
-           always_nodes: []
-           credentials: []
        - identifier: Extend Physical Volume
          unified_job_template:
            organization:
