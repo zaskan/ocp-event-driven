@@ -1,24 +1,24 @@
 jobtemplates:
-  - name: "[JT] Servicenow Actions"
+  - name: "[JT] Open Servicenow Incident"
     org: "{{ default_organization | default('Default') }}"
     inv: "Automation Controller Inventory"
     project: "OCP Event-Driven Demo Project"
-    playbook: "playbooks/alertmanager_servicenow.yaml"
+    playbook: "playbooks/alertmanager_open_snow_incident.yaml"
     creds:
       - "ServiceNow Credential"
     ask_variables_on_launch: true
     allow_simultaneous: false
     execution_environment: "Default execution environment"
 
-  - name: "[JT] Extract Information from Servicenow Ticket"
+  - name: "[JT] Close Servicenow Incident"
     org: "{{ default_organization | default('Default') }}"
     inv: "Automation Controller Inventory"
     project: "OCP Event-Driven Demo Project"
-    playbook: "playbooks/servicenow_get_incident_info.yaml"
+    playbook: "playbooks/ansible_close_snow_incident.yaml"
     creds:
       - "ServiceNow Credential"
     ask_variables_on_launch: true
-    allow_simultaneous: true
+    allow_simultaneous: false
     execution_environment: "Default execution environment"
 
   - name: "[JT] Extend Physical Volume"

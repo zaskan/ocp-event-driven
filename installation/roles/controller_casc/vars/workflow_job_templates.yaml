@@ -23,7 +23,7 @@ workflowjobtemplates:
          unified_job_template:
            organization:
              name: "{{ default_organization | default('Default') }}"
-           name: "[JT] Servicenow Actions"
+           name: "[JT] Close Servicenow Incident"
            type: job_template
          credentials: []
          related:
