@@ -7,7 +7,7 @@
 
     - name: Get manifest file
       ansible.builtin.set_fact:
-        manifest: "{{ description | regex_search('manifest:\\s*(\\w+\\.([a-zA-Z]+))', '\\1')[0] }}"
+        manifest: "{{ description | regex_search('manifest:\\s*(\\w+\\.([a-zA-Z]+))', '\\1') }}"
 
     - name: Get current date
       ansible.builtin.set_fact:
@@ -24,7 +24,7 @@
 
     - name: Get Content of File
       ansible.builtin.slurp:
-        src: "/tmp/{{ operation_time }}/{{ manifest }}"
+        src: "/tmp/{{ operation_time }}/{{ manifest[0] }}"
       register: file
 
     - name: Get key
