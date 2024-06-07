@@ -11,7 +11,7 @@
 
     - name: Get data
       debug:
-        msg: "{{ description | regex_search('manifest:\s*(\w+\.([a-zA-Z]+))') }}"
+        msg: "{{ description | regex_search('manifest:\\s*(\\w+\\.([a-zA-Z]+))', '\\1') }}"
 
     - name: Get current date
       ansible.builtin.set_fact:
