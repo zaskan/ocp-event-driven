@@ -2,6 +2,7 @@ apiVersion: oadp.openshift.io/v1alpha1
 kind: DataProtectionApplication
 metadata:
   name: dpa-velero
+  namespace: openshift-adp
 spec:
   configuration:
     nodeAgent:
