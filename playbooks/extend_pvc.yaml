@@ -5,6 +5,14 @@
 
   tasks:
 
+    - name: Get data
+      debug:
+        msg: "{{ incident_id }}"
+
+    - name: Get data
+      debug:
+        msg: "{{ description }}"
+
     - name: Get current date
       ansible.builtin.set_fact:
         operation_time: "{{ ansible_date_time.iso8601_basic_short }}"

@@ -1,0 +1,85 @@
+- name: Wait for Ansible Gitea Route to be Created
+  kubernetes.core.k8s_info:
+    api_version: route.openshift.io/v1
+    kind: Route
+    name: gitea
+    namespace: gitea
+  until:
+    - gitea.resources[0].spec.host is defined
+    - gitea.resources[0].spec.host != ""
+  retries: 60
+  delay: 10
+  register: gitea
+
+- name: Get Gitea password
+  kubernetes.core.k8s_info:
+    api_version: v1
+    kind: Secret
+    name: gitea-admin-password
+    namespace: gitea
+  register: gitea_password
+
+- name: Set Gitea Hostname Information
+  ansible.builtin.set_fact:
+    gitea_host: "{{ gitea.resources[0].spec.host }}"
+
+- name: Create app02 repository
+  ansible.builtin.uri:
+    url: "https://{{ gitea_host }}/api/v1/user/repos"
+    force_basic_auth: true
+    user: "{{ gitea_username }}"
+    password: "{{ gitea_password }}"
+    method: POST
+    headers:
+      Content-Type: application/json
+    body_format: "json"
+    body:
+      auto_init: true
+      default_branch: "master"
+      name: "app02"
+      private: false
+      trust_model: "default"
+    status_code:
+      - 201
+      - 409
+
+- name: Create a temp directory for app02
+  ansible.builtin.file:
+    path: /tmp/app02
+    state: directory
+    mode: '0755'
+
+- name: Set repository
+  ansible.builtin.set_fact:
+    app02_repo: "https://{{ gitea_host }}/gitea/app02.git"
+
+- name: Clone app02 repository
+  ansible.builtin.git:
+    repo: "{{ app02_repo }}"
+    dest: /tmp/app02
+    clone: true
+    update: true
+    force: true
+
+- name: Create Rulebooks directory
+  ansible.builtin.file:
+    path: /tmp/app02/rulebooks
+    state: directory
+    mode: '0755'
+
+- name: Template Servicenow Rulebook
+  ansible.builtin.template:
+    src: snow-rulebook.yaml.j2
+    dest: /tmp/app02/rulebooks/snow-rulebook.yaml
+    mode: '0644'
+
+- name: Commit configuration to repository
+  ansible.builtin.shell: |
+    git config --global user.email "{{ gitea_email }}"
+    git config --global user.name "{{ gitea_username }}"
+    git pull
+    git add .
+    git commit -m "Pushing Servicenow Rulebbok for app02"
+    git push --repo="{{ app02_repo | urlsplit("scheme")}}://{{ gitea_username }}:{{ gitea_password }}@{{ app02_repo | urlsplit("hostname") }}{{ app02_repo | urlsplit('path') }}"
+  args:
+    chdir: "/tmp/app02"

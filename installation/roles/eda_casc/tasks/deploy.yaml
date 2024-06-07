@@ -59,3 +59,4 @@
   loop: "{{ activations }}"
   when:
     - lookup('file', 'vars/activations.yaml', errors='ignore') is not none
+
