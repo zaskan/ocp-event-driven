@@ -51,7 +51,7 @@
       ansible.builtin.lineinfile:
         state: present
         backrefs: true
-        path: "/tmp/{{ operation_time }}/{{ manifest }}"
+        path: "/tmp/{{ operation_time }}/{{ manifest[0] }}"
         regexp: '^(\s*)storage:.*'
         line: '\1storage: {{ new_size }}{{ unit }}'
 
