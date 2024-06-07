@@ -11,7 +11,7 @@
 
     - name: Get data
       debug:
-        msg: "{{ description }}"
+        msg: "{{ description | to_yaml }}"
 
     - name: Get current date
       ansible.builtin.set_fact:
