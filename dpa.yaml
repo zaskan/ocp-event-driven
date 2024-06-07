@@ -11,4 +11,4 @@ spec:
     velero:
       defaultPlugins:
       - openshift
-      - aws
+      - azure
