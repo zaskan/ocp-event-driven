@@ -1,0 +1,10 @@
+apiVersion: velero.io/v1
+kind: Restore
+metadata:
+  name: restore-app02
+  namespace: openshift-adp
+spec:
+  includedNamespaces:
+    - app02
+  backupName: backup-app02
+  restorePVs: true

@@ -1,0 +1,10 @@
+apiVersion: velero.io/v1
+kind: Backup
+metadata:
+  name: backup-app02
+  namespace: openshift-adp
+spec:
+  includedNamespaces:
+    - app02
+  defaultVolumesToFsBackup: true
+  ttl: 4h00m00s
