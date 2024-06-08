@@ -12,6 +12,15 @@
   when:
     - lookup('file', 'vars/organizations.yaml', errors='ignore') is not none
 
+- name: Set Default organization
+  ansible.builtin.set_fact:
+    default_organization: "{{ item.name }}"
+  loop: "{{ organizations }}"
+  when:
+    - lookup('file', 'vars/organizations.yaml', errors='ignore') is not none
+    - item.default is defined
+    - item.default is true
+
 - name: Create Applications
   ansible.controller.application:
     name: "{{ item.name }}"

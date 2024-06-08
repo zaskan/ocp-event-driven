@@ -3,7 +3,7 @@ activations:
     description: OCP EDA Demo listener for Servicenow and Alertmanager
     project: ocp-event-driven
     rulebook: rulebook.yaml
-    decision_environment: Default Decision Environment
+    decision_environment: EDA Decision Environment
     enabled: true
     awx_token: "Ansible Controller"
     state: present

@@ -57,7 +57,6 @@
     awx_token: "{{ item.awx_token }}"
     state: present
     restart_policy: always
-    extra_vars: "{{ item.extra_vars }}"
   loop: "{{ activations }}"
   when:
     - lookup('file', 'vars/activations.yaml', errors='ignore') is not none

@@ -21,7 +21,7 @@
       action:
         run_job_template:
           name: "[JT] Open Servicenow Incident"
-          organization: "Default"
+          organization: "Event-Driven Ansible"
           job_args:
             extra_vars:
               payload: "{{ event.alert }}"
@@ -31,7 +31,7 @@
       action:
         run_workflow_template:
           name: "[WF] Extend Openshift Physical Volume"
-          organization: Default
+          organization: "Event-Driven Ansible"
           job_args:
             extra_vars:
               incident_id: "{{ event.number }}"

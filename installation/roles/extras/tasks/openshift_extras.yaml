@@ -2,7 +2,6 @@
   kubernetes.core.k8s:
     state: present
     src: "{{ item }}"
-    namespace: app02
   with_fileglob:
     - "files/alertmanager/*"
     - "files/app02/namespace/*"
