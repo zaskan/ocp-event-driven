@@ -1,0 +1,23 @@
+- name: Get Argocd host
+  kubernetes.core.k8s_info:
+    api_version: v1
+    kind: Route
+    name: openshift-gitops-server
+    namespace: openshift-gitops
+  register: gitea_host
+
+- name: Get Argocd password
+  kubernetes.core.k8s_info:
+    api_version: v1
+    kind: Secret
+    name: openshift-gitops-cluster
+    namespace: openshift-gitops
+  register: gitea_password
+
+- name: Set Argocd Password
+  ansible.builtin.set_fact:
+    argocd_pass: "{{ gitea_password.resources[0]['data']['admin.password'] | ansible.builtin.b64decode }}"
+
+- name: Set Argocd Host
+  ansible.builtin.set_fact:
+    argocd_host: "{{ gitea_host.resources[0]['spec']['host'] }}"

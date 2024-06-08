@@ -1,0 +1,25 @@
+{
+  "fields": [
+    {
+      "id": "argocd_host",
+      "type": "string",
+      "label": "ArgoCD Hostname"
+    },
+    {
+      "id": "argocd_user",
+      "type": "string",
+      "label": "ArgoCD Username"
+    },
+    {
+      "id": "argocd_pass",
+      "type": "string",
+      "label": "ArgoCD Password",
+      "secret": true
+    }
+  ],
+  "required": [
+    "argocd_host",
+    "argocd_user",
+    "argocd_pass"
+  ]
+}

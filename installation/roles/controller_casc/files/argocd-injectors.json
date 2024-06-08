@@ -1,0 +1,7 @@
+{
+  "env": {
+    "ARGOCD_HOST": "{{ argocd_host }}",
+    "ARGOCD_USERNAME": "{{ argocd_user }}",
+    "ARGOCD_PASSWORD": "{{ argocd_pass }}"
+  }
+}
