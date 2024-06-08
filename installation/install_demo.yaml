@@ -63,6 +63,10 @@
 
     - name: Ansible Controller
       ansible.builtin.include_role:
+        name: pre_tasks
+
+    - name: Ansible Controller
+      ansible.builtin.include_role:
         name: controller_casc
 
     - name: Ansible EDA
