@@ -2,6 +2,7 @@ kind: Service
 apiVersion: v1
 metadata:
   name: app02
+  namespace: app02
   labels:
     app: app02
 spec:
