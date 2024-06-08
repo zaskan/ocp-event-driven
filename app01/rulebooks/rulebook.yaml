@@ -4,9 +4,9 @@
   sources:
     - name: Listen to Alertmanager
       ansible.eda.alertmanager:
-      host: 0.0.0.0
-      port: 5000
-      data_host_path: ""
+        host: 0.0.0.0
+        port: 5000
+        data_host_path: ""
 
     - name: Check new Incidents
       cloin.eda.snow_records:
