@@ -90,9 +90,6 @@
         headers:
           Content-Type: application/json
           Authorization: "Bearer {{ argocd_token.json.token }}"
-        body:
-          username: admin
-          password: "{{ argocd_pass }}"
         status_code: 200
         validate_certs: false
       register: argocd_token
