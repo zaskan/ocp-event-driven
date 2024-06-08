@@ -28,6 +28,7 @@ jobtemplates:
     playbook: "playbooks/extend_pvc.yaml"
     creds:
       - "Gitea Credential"
+      - "ArgoCD Credential"
     ask_variables_on_launch: true
     allow_simultaneous: false
     execution_environment: "Default execution environment"

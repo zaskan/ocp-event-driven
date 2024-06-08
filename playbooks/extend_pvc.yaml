@@ -66,3 +66,33 @@
         git_user: "{{ lookup('env','GITEA_USERNAME') }}"
         git_message: "Extended storage to {{ new_size }}{{ unit }}"
       register: git_result
+
+    - name: Get Argocd Token
+      ansible.builtin.uri:
+        url: "https://{{ lookup('env', 'ARGOCD_HOST') }}/api/v1/session"
+        method: POST
+        body_format: json
+        headers:
+          Content-Type: application/json
+        body:
+          username: admin
+          password: "{{ lookup('env', 'ARGOCD_PASSWORD') }}"
+        status_code: 200
+        force_basic_auth: true
+        validate_certs: false
+      register: argocd_token
+
+    - name: Synchronize APP
+      ansible.builtin.uri:
+        url: "https://{{ lookup('env', 'ARGOCD_HOST') }}/api/v1/applications/app01/sync?project=default"
+        method: POST
+        body_format: json
+        headers:
+          Content-Type: application/json
+          Authorization: "Bearer {{ argocd_token.json.token }}"
+        body:
+          username: admin
+          password: "{{ argocd_pass }}"
+        status_code: 200
+        validate_certs: false
+      register: argocd_token
