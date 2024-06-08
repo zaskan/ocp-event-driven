@@ -1,7 +1,6 @@
 ---
-- name: Uninstall Demo in OpenShift
+- name: Uninstall Demo
   hosts: localhost
-  
   tasks:
 
     - name: Remove demo environment on ArgoCD
@@ -23,6 +22,14 @@
       loop: "{{ demoNamespaces }}"
       loop_control:
         loop_var: namespace
-  
+
+    - name: Delete Extras
+      kubernetes.core.k8s:
+        state: absent
+        src: "{{ item }}"
+      with_fileglob:
+        - "roles/extras/files/alertmanager/*"
+        - "roles/extras/files/app02/namespace/*"
+        - "roles/extras/files/app02/others/*"
   vars_files:
     - vars.yaml
