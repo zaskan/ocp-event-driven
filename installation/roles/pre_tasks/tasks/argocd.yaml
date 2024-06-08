@@ -16,8 +16,8 @@
 
 - name: Set Argocd Password
   ansible.builtin.set_fact:
-    argocd_pass: "{{ gitea_password.resources[0]['data']['admin.password'] | ansible.builtin.b64decode }}"
+    argocd_password: "{{ gitea_password.resources[0]['data']['admin.password'] | ansible.builtin.b64decode }}"
 
 - name: Set Argocd Host
   ansible.builtin.set_fact:
-    argocd_host: "{{ gitea_host.resources[0]['spec']['host'] }}"
+    argocd_hostname: "{{ gitea_host.resources[0]['spec']['host'] }}"

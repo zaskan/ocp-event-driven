@@ -61,7 +61,7 @@
         snow_eda_username: "{{ snow_eda_username }}"
         snow_eda_password: "{{ snow_eda_password }}"
 
-    - name: Ansible Controller
+    - name: Pre-Tasks
       ansible.builtin.include_role:
         name: pre_tasks
 
@@ -75,9 +75,9 @@
       vars:
         eda_casc_controller_token: "{{ application_token }}"
 
-    - name: Extras
+    - name: Post-Tasks
       ansible.builtin.include_role:
-        name: extras
+        name: post_tasks
 
     - name: Display message after role execution
       ansible.builtin.debug:

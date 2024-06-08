@@ -1,0 +1,2 @@
+- name: Get Argocd Credentials
+  ansible.builtin.include_tasks: argocd.yaml
