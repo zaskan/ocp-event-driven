@@ -54,12 +54,12 @@
                 prune: true
                 selfHeal: true
 
-#    - name: Servicenow
-#      ansible.builtin.include_role:
-#        name: servicenow_casc
-#      vars:
-#        snow_eda_username: "{{ snow_eda_username }}"
-#        snow_eda_password: "{{ snow_eda_password }}"
+    - name: Servicenow
+      ansible.builtin.include_role:
+        name: servicenow_casc
+      vars:
+        snow_eda_username: "{{ snow_eda_username }}"
+        snow_eda_password: "{{ snow_eda_password }}"
 
     - name: Ansible Controller
       ansible.builtin.include_role:

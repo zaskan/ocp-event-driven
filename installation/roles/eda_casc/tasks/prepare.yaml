@@ -29,7 +29,7 @@
 
 - name: Wait for EDA Controller to be ready
   ansible.builtin.uri:
-    url: "https://{{ controller.resources[0].spec.host }}"
+    url: "https://{{ eda.resources[0].spec.host }}"
     validate_certs: false
     status_code: 200
   retries: 60
