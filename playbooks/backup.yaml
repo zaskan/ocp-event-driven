@@ -5,7 +5,7 @@
 
   tasks:
 
-    - name: Clone Configuration Repository
+    - name: Execute Operation
       ansible.builtin.include_role:
         name: backup
       vars:

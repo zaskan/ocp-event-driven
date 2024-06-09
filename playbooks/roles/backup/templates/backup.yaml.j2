@@ -1,7 +1,7 @@
 apiVersion: velero.io/v1
 kind: Backup
 metadata:
-  name: backup-"{{ app_name }}"
+  name: "backup-{{ app_name }}"
   namespace: openshift-adp
 spec:
   includedNamespaces:
