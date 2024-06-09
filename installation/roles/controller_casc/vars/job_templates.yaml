@@ -42,6 +42,7 @@ jobtemplates:
       - "Gitea Credential"
       - "Azure Credential for DPA"
       - "Azure Credential"
+      - "Openshift Credential"
     ask_variables_on_launch: true
     allow_simultaneous: false
     execution_environment: "Default execution environment"
@@ -57,6 +58,7 @@ jobtemplates:
       - "Gitea Credential"
       - "Azure Credential for DPA"
       - "Azure Credential"
+      - "Openshift Credential"
     ask_variables_on_launch: true
     allow_simultaneous: false
     execution_environment: "Default execution environment"
