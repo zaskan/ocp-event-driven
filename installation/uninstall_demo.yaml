@@ -28,8 +28,8 @@
         state: absent
         src: "{{ item }}"
       with_fileglob:
-        - "roles/extras/files/alertmanager/*"
-        - "roles/extras/files/app02/namespace/*"
-        - "roles/extras/files/app02/others/*"
+        - "roles/post_tasks/files/alertmanager/*"
+        - "roles/post_tasks/files/app02/namespace/*"
+        - "roles/post_tasks/files/app02/others/*"
   vars_files:
     - vars.yaml
