@@ -1,0 +1,18 @@
+apiVersion: monitoring.coreos.com/v1beta1
+kind: AlertmanagerConfig
+metadata:
+  name: eda-routing
+  namespace: openshift-monitoring
+  annotations:
+    argocd.argoproj.io/sync-wave: "96"
+spec:
+  route:
+    group_by: ["job"]
+    group_wait: 30s
+    group_interval: 2m
+    repeat_interval: 12h
+    receiver: 'webhook'
+  receivers:
+  - name: 'webhook'
+    webhookConfigs:
+    - url: http://eda-routing.aap.svc.cluster.local:5000/endpoint

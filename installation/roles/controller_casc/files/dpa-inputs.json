@@ -1,0 +1,31 @@
+{
+  "fields": [
+    {
+      "id": "resource_group",
+      "type": "string",
+      "label": "Azure Resource Group"
+    },
+    {
+      "id": "cloud_name",
+      "type": "string",
+      "label": "Azure Cloud Name"
+    },
+    {
+      "id": "storage_account",
+      "type": "string",
+      "label": "Azure Storage Account"
+    },
+    {
+      "id": "storage_account_access_key",
+      "type": "string",
+      "label": "Azure Storage Account Access Key",
+      "secret": true
+    }
+  ],
+  "required": [
+    "resource_group",
+    "cloud_name",
+    "storage_account",
+    "storage_account_access_key"
+  ]
+}

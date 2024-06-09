@@ -1,0 +1,16 @@
+---
+- name: Backup / Restore Operations
+  hosts: localhost
+  gather_facts: true
+
+  tasks:
+
+    - name: Clone Configuration Repository
+      ansible.builtin.include_role:
+        name: backup
+      vars:
+        app_name: "{{ app_name }}"
+        operation: "{{ operation }}"
+        git_operation: clone
+      register: backup_result
+

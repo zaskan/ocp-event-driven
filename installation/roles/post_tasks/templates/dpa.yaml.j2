@@ -1,0 +1,29 @@
+apiVersion: oadp.openshift.io/v1alpha1
+kind: DataProtectionApplication
+metadata:
+  name: dpa-velero
+  namespace: openshift-adp
+spec:
+  configuration:
+    nodeAgent:
+      enable: true
+      uploaderType: kopia
+    velero:
+      defaultPlugins:
+      - openshift
+      - azure
+  backupLocations:
+    - velero:
+        config:
+          resourceGroup: rg-jomarque-oadp
+          storageAccount: stjomarqueoadp
+          subscriptionId: b9c5c8e5-1ac1-43a5-9d6b-1c9f4ff1cd1c
+          storageAccountKeyEnvVar: AZURE_STORAGE_ACCOUNT_ACCESS_KEY
+        credential:
+          key: cloud
+          name: cloud-credentials-azure 
+        provider: azure
+        default: true
+        objectStorage:
+          bucket: jomarque-velero-container
+          prefix: velero
