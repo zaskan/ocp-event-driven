@@ -31,3 +31,36 @@ workflowjobtemplates:
            failure_nodes: []
            always_nodes: []
            credentials: []
+
+  - name: "[WF] Restore Application"
+    org: "{{ default_organization | default('Default') }}"
+    inv: ""
+    ask_variables_on_launch: true
+    ask_limit_on_launch: false
+    allow_simultaneous: true
+    steps:
+       - identifier: Restore Application
+         unified_job_template:
+           organization:
+             name: "{{ default_organization | default('Default') }}"
+           name: "[JT] Restore Application"
+           type: job_template
+         credentials: []
+         related:
+           success_nodes:
+             - identifier: "Close Servicenow Ticket"
+           failure_nodes: []
+           always_nodes: []
+           credentials: []
+       - identifier: Close Servicenow Ticket
+         unified_job_template:
+           organization:
+             name: "{{ default_organization | default('Default') }}"
+           name: "[JT] Close Servicenow Incident"
+           type: job_template
+         credentials: []
+         related:
+           success_nodes: []
+           failure_nodes: []
+           always_nodes: []
+           credentials: []

@@ -33,4 +33,28 @@ jobtemplates:
     allow_simultaneous: false
     execution_environment: "Default execution environment"
 
+  - name: "[JT] Backup Application"
+    org: "{{ default_organization | default('Default') }}"
+    inv: "Automation Controller Inventory"
+    project: "OCP Event-Driven Demo Project"
+    playbook: "playbooks/backup.yaml"
+    creds:
+      - "Gitea Credential"
+      - "Azure Credential for DPA"
+      - "Azure Credential"
+    ask_variables_on_launch: true
+    allow_simultaneous: false
+    execution_environment: "Default execution environment"
 
+  - name: "[JT] Restore Application"
+    org: "{{ default_organization | default('Default') }}"
+    inv: "Automation Controller Inventory"
+    project: "OCP Event-Driven Demo Project"
+    playbook: "playbooks/restore.yaml"
+    creds:
+      - "Gitea Credential"
+      - "Azure Credential for DPA"
+      - "Azure Credential"
+    ask_variables_on_launch: true
+    allow_simultaneous: false
+    execution_environment: "Default execution environment"

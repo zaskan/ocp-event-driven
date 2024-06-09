@@ -1,3 +1,14 @@
+- name: Create Directory
+  ansible.builtin.file:
+    path: /tmp/app02
+    state: directory
+
+- name: Template DPA template
+  ansible.builtin.template:
+    src: dpa.yaml.j2
+    dest: /tmp/app02/dpa.yaml
+    mode: '0644'
+
 - name: Create Extra Objects in Openshift (Outside Argocd)
   kubernetes.core.k8s:
     state: present
@@ -6,3 +17,8 @@
     - "files/alertmanager/*"
     - "files/app02/namespace/*"
     - "files/app02/others/*"
+
+- name: Create DPA
+  kubernetes.core.k8s:
+    state: present
+    src: "/tmp/app02/dpa.yaml"
