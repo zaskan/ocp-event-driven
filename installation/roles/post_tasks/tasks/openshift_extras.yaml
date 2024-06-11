@@ -38,7 +38,7 @@
   with_fileglob:
     - "files/alertmanager/*.yaml"
     - "files/app02/namespace/*"
-    - "files/app02/others/*"
+    - "files/app02/deploy/*"
 
 - name: Create DPA
   kubernetes.core.k8s:

@@ -1,5 +1,5 @@
 ---
-- name: Install Demo in OpenShift
+- name: Synchronize ArgoCD - Only for demo Purpose
   gather_facts: false
   hosts: localhost
   tasks:
@@ -56,4 +56,3 @@
           password: "{{ argocd_pass }}"
         status_code: 200
         validate_certs: false
-      register: argocd_token

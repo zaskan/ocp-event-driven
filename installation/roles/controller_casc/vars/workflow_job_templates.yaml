@@ -28,6 +28,19 @@ workflowjobtemplates:
          credentials: []
          related:
            success_nodes:
+             - identifier: "Synchronize ArgoCD"
+           failure_nodes: []
+           always_nodes: []
+           credentials: []
+       - identifier: Synchronize ArgoCD
+         unified_job_template:
+           organization:
+             name: "{{ default_organization | default('Default') }}"
+           name: "[JT] Synchronize ArgoCD"
+           type: job_template
+         credentials: []
+         related:
+           success_nodes:
              - identifier: "Close Servicenow Ticket"
            failure_nodes: []
            always_nodes: []

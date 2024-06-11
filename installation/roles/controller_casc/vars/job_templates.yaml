@@ -71,3 +71,14 @@ jobtemplates:
     ask_variables_on_launch: true
     allow_simultaneous: false
     execution_environment: "Default execution environment"
+
+  - name: "[JT] Synchronize ArgoCD"
+    org: "{{ default_organization | default('Default') }}"
+    inv: "Automation Controller Inventory"
+    project: "OCP Event-Driven Demo Project"
+    playbook: "playbooks/synchronize_argocd.yaml"
+    creds:
+      - "Openshift Credential"
+    ask_variables_on_launch: true
+    allow_simultaneous: false
+    execution_environment: "Default execution environment"
