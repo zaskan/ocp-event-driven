@@ -6,6 +6,19 @@ workflowjobtemplates:
     ask_limit_on_launch: false
     allow_simultaneous: true
     steps:
+       - identifier: Set Alert Acknowledge
+         unified_job_template:
+           organization:
+             name: "{{ default_organization | default('Default') }}"
+           name: "[JT] Set Alert to Acknowledge"
+           type: job_template
+         credentials: []
+         related:
+           success_nodes:
+             - identifier: "Extend Physical Volume"
+           failure_nodes: []
+           always_nodes: []
+           credentials: []
        - identifier: Extend Physical Volume
          unified_job_template:
            organization:
@@ -39,6 +52,19 @@ workflowjobtemplates:
     ask_limit_on_launch: false
     allow_simultaneous: true
     steps:
+       - identifier: Set Alert Acknowledge
+         unified_job_template:
+           organization:
+             name: "{{ default_organization | default('Default') }}"
+           name: "[JT] Set Alert to Acknowledge"
+           type: job_template
+         credentials: []
+         related:
+           success_nodes:
+             - identifier: "Restore Application"
+           failure_nodes: []
+           always_nodes: []
+           credentials: []
        - identifier: Restore Application
          unified_job_template:
            organization:

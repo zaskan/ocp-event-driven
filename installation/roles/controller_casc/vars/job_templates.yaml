@@ -60,3 +60,14 @@ jobtemplates:
     execution_environment: "Default execution environment"
     extra_vars:
       operation: restore
+
+  - name: "[JT] Set Alert to Acknowledge"
+    org: "{{ default_organization | default('Default') }}"
+    inv: "Automation Controller Inventory"
+    project: "OCP Event-Driven Demo Project"
+    playbook: "playbooks/silence_alarm.yaml"
+    creds:
+      - "Openshift Credential"
+    ask_variables_on_launch: true
+    allow_simultaneous: false
+    execution_environment: "Default execution environment"
