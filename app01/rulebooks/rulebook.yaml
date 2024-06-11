@@ -17,10 +17,7 @@
         interval: 1
   rules:
     - name: Get PVCUsageHigh alerts
-      condition:
-        any:
-          - event.alert.labels.alertname == "PVCUsageHigh"
-          - event.alert.labels.alertname == "App02NamespaceIsMissing"
+      condition: event.alert.labels.alertname == "PVCUsageHigh" or event.alert.labels.alertname == "App02NamespaceIsMissing"
       action:
         run_job_template:
           name: "[JT] Open Servicenow Incident"

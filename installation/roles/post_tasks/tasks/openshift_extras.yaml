@@ -9,12 +9,34 @@
     dest: /tmp/app02/dpa.yaml
     mode: '0644'
 
+- name: Template Azure credentials
+  ansible.builtin.template:
+    src: credentials.j2
+    dest: /tmp/credentials
+    mode: '0644'
+
+- name: Get credentials content and encode to base64
+  ansible.builtin.slurp:
+    src: /tmp/credentials
+  register: cloud
+
+- name: Template Openshift Secret
+  ansible.builtin.template:
+    src: secret.yaml.j2
+    dest: /tmp/secret.yaml
+    mode: '0644'
+
+- name: Apply Secret
+  kubernetes.core.k8s:
+    state: present
+    src: /tmp/secret.yaml
+
 - name: Create Extra Objects in Openshift (Outside Argocd)
   kubernetes.core.k8s:
     state: present
     src: "{{ item }}"
   with_fileglob:
-    - "files/alertmanager/*"
+    - "files/alertmanager/*.yaml"
     - "files/app02/namespace/*"
     - "files/app02/others/*"
 
@@ -22,3 +44,17 @@
   kubernetes.core.k8s:
     state: present
     src: "/tmp/app02/dpa.yaml"
+
+- name: Create Alertmanager secret
+  ansible.builtin.shell: "oc -n openshift-monitoring create secret generic alertmanager-main --from-file=./files/alertmanager.yml --dry-run=client -o=yaml |  oc -n openshift-monitoring replace secret --filename=-"
+
+
+#- name: Clean tmp
+  #ansible.builtin.file:
+    #path: "{{ item }}"
+    #state: absent
+  #loop:
+    #- /tmp/secret.yaml
+    #- /tmp/credentials
+    #- /tmp/app02/dpa.yaml
+

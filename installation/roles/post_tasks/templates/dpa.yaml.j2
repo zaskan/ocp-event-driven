@@ -15,15 +15,16 @@ spec:
   backupLocations:
     - velero:
         config:
-          resourceGroup: rg-jomarque-oadp
-          storageAccount: stjomarqueoadp
-          subscriptionId: b9c5c8e5-1ac1-43a5-9d6b-1c9f4ff1cd1c
-          storageAccountKeyEnvVar: AZURE_STORAGE_ACCOUNT_ACCESS_KEY
+          resourceGroup:  {{ AZURE_RESOURCE_GROUP }}
+          storageAccount: {{ AZURE_STORAGE_ACCOUNT }}
+          subscriptionId: {{ AZURE_SUBSCRIPTION_ID }}
+          storageAccountKeyEnvVar: {{ AZURE_STORAGE_ACCOUNT_ACCESS_KEY }}
         credential:
           key: cloud
           name: cloud-credentials-azure 
         provider: azure
         default: true
         objectStorage:
-          bucket: jomarque-velero-container
+          bucket: "{{ bucket }}"
           prefix: velero
+          

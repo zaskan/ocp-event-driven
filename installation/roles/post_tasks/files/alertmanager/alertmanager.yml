@@ -1,0 +1,51 @@
+global:
+  resolve_timeout: 5m
+inhibit_rules:
+  - equal:
+      - namespace
+      - alertname
+    source_matchers:
+      - severity = critical
+    target_matchers:
+      - severity =~ warning|info
+  - equal:
+      - namespace
+      - alertname
+    source_matchers:
+      - severity = warning
+    target_matchers:
+      - severity = info
+  - equal:
+      - namespace
+    source_matchers:
+      - alertname = InfoInhibitor
+    target_matchers:
+      - severity = info
+receivers:
+  - name: Default
+  - name: Watchdog
+  - name: 'null'
+  - name: app02
+    webhook_configs:
+      - url: 'http://eda-routing.aap.svc.cluster.local:5000/endpoint'
+        send_resolved: false
+route:
+  group_by:
+    - namespace
+  group_interval: 1m
+  group_wait: 30s
+  receiver: Default
+  repeat_interval: 12h
+  routes:
+    - matchers:
+        - alertname = Watchdog
+      receiver: Watchdog
+    - matchers:
+        - alertname = InfoInhibitor
+      receiver: 'null'
+    - matchers:
+      - "alertname=App02NamespaceIsMissing"
+      routes:
+      - matchers:
+        - "severity=critical"
+        receiver: app02

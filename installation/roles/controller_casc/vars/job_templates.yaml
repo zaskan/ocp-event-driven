@@ -40,8 +40,6 @@ jobtemplates:
     playbook: "playbooks/backup.yaml"
     creds:
       - "Gitea Credential"
-      - "Azure Credential for DPA"
-      - "Azure Credential"
       - "Openshift Credential"
     ask_variables_on_launch: true
     allow_simultaneous: false
@@ -56,8 +54,6 @@ jobtemplates:
     playbook: "playbooks/backup.yaml"
     creds:
       - "Gitea Credential"
-      - "Azure Credential for DPA"
-      - "Azure Credential"
       - "Openshift Credential"
     ask_variables_on_launch: true
     allow_simultaneous: false
