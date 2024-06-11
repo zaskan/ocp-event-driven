@@ -16,7 +16,7 @@
         table: incident
         interval: 1
   rules:
-    - name: Get PVCUsageHigh alerts
+    - name: Get Alertmanager Alerts
       condition: event.alert.labels.alertname == "PVCUsageHigh" or event.alert.labels.alertname == "App02NamespaceIsMissing"
       action:
         run_job_template:
@@ -26,7 +26,7 @@
             extra_vars:
               payload: "{{ event.alert }}"
 
-    - name: Extend PVC
+    - name: Trigger Remediation for PVCUsageHigh
       condition: event.short_description == "PVCUsageHigh"
       action:
         run_workflow_template:
@@ -36,3 +36,15 @@
             extra_vars:
               incident_id: "{{ event.number }}"
               description: "{{ event.description }}"
+
+    - name: Trigger Remediation for App02NamespaceIsMissing
+      condition: event.short_description == "App02NamespaceIsMissing"
+      action:
+        run_workflow_template:
+          name: "[WF] Restore Application"
+          organization: "Event-Driven Ansible"
+          job_args:
+            extra_vars:
+              incident_id: "{{ event.number }}"
+              description: "{{ event.description }}"
+              app_name: "app02"
