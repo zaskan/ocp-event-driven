@@ -1,5 +1,10 @@
-- name: Silence Alarms
-  kubernetes.core.k8s_exec:
-    namespace: openshift-monitoring
-    pod: alertmanager-main-0
-    command: "amtool silence add --alertmanager.url http://localhost:9093  alertname={{ ansible_eda.event.short_description }} --comment 'ACK'"
+---
+- name: Silence Alertmanager Alarm
+  hosts: localhost
+  gather_facts: False
+  tasks:
+    - name: Silence Alarms
+      kubernetes.core.k8s_exec:
+        namespace: openshift-monitoring
+        pod: alertmanager-main-0
+        command: "amtool silence add --alertmanager.url http://localhost:9093  alertname={{ ansible_eda.event.short_description }} --comment 'ACK'"
