@@ -1,3 +1,11 @@
+- name: Create AWS Bucket
+  amazon.aws.s3_bucket:
+    access_key: "{{ AWS_ACCESS_KEY_ID }}"
+    secret_key: "{{ AWS_SECRET_ACCESS_KEY }}"
+    region: eu-west-1
+    name: "{{ bucket }}"
+    state: present
+
 - name: Create Directory
   ansible.builtin.file:
     path: /tmp/app02

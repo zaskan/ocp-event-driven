@@ -11,20 +11,18 @@ spec:
     velero:
       defaultPlugins:
       - openshift
-      - azure
+      - aws
   backupLocations:
     - velero:
         config:
-          resourceGroup:  {{ AZURE_RESOURCE_GROUP }}
-          storageAccount: {{ AZURE_STORAGE_ACCOUNT }}
-          subscriptionId: {{ AZURE_SUBSCRIPTION_ID }}
-          storageAccountKeyEnvVar: AZURE_STORAGE_ACCOUNT_ACCESS_KEY
+          region: eu-west-1
+        provider: aws
+        default: true
         credential:
           key: cloud
-          name: cloud-credentials-azure 
-        provider: azure
-        default: true
+          name: cloud-credentials
         objectStorage:
-          bucket: "{{ bucket }}"
+          bucket: {{ bucket }}
           prefix: velero
+
           
