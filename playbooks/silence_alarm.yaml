@@ -8,3 +8,20 @@
         namespace: openshift-monitoring
         pod: alertmanager-main-0
         command: "amtool silence add --alertmanager.url http://localhost:9093  alertname={{ ansible_eda.event.short_description }} --comment 'ACK'"
+
+    - name: Disable
+      kubernetes.core.k8s:
+        state: absent
+        api_version: monitoring.coreos.com/v1
+        kind: PrometheusRule
+        namespace: app01
+        name: app01-pvc
+
+    - name: Disable
+      kubernetes.core.k8s:
+        state: absent
+        api_version: monitoring.coreos.com/v1beta1
+        kind: AlertmanagerConfig
+        namespace: app01
+        name: eda-routing
+
