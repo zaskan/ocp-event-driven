@@ -9,6 +9,8 @@
         pod: alertmanager-main-0
         command: "amtool silence add --alertmanager.url http://localhost:9093  alertname={{ ansible_eda.event.short_description }} --comment 'ACK'"
 
+# Added the two tasks below in order to stop alertmanager sending alerts. TODO: Check alertmanager configuration to avoid sending alerts once we ACK the first one.
+
     - name: Disable
       kubernetes.core.k8s:
         state: absent
